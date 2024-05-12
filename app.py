@@ -85,7 +85,7 @@ def main():
         text=request.form.get('text')
         genre=request.form.get('genre')
         query=f"""
-        INSERT INTO post(date, )"""
+        INSERT INTO post(date, time)"""
 
     return render_template('post.html')
 

@@ -149,7 +149,7 @@ def main():
             # return render_template('main.html', posts=post_data, like_number=like_number, user_like_with=user_like_with)
 
     db_connection.close()
-    # return redirect(url_for('main'))
+    return redirect(url_for('main'))
     return render_template('main.html', posts=post_data)
 
 if __name__ == '__main__':

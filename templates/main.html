@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
@@ -14,6 +15,29 @@
 <button><a href="{{ url_for('register') }}">Register</a></button>
 
 <button><a href="{{ url_for('login') }}">Login</a></button>
+
+<form method="post">
+    <table class="table">
+    {% for p in posts%}
+    <tr>
+        <td>{{ p[1] }}</td>  {#date#}
+        <td>{{ p[2] }}</td> {#text#}
+        <td>{{ p[3] }}</td> {#post_user_id#}
+        {% if p[5] == True %}
+            <td><button style="background-color: red" name="like_btn">LIKE</button></td>
+        {% else %}
+            <td><button style="background-color: green" name="like_btn">LIKE</button></td>
+        {% endif %}
+        <td>{{ p[4] }}</td>
+{#            <i class="fa-regular fa-heart" style="color: red"></i></td>#}
+        <td><button><a href="{{ url_for('view_detail', post_id=p[0]) }}">VIEW POST</a></button></td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+</form>
+
 
 </body>
 </html>

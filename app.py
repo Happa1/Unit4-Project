@@ -16,7 +16,20 @@ app.secret_key = "fahjdkfhquwihfvzcnvmfadfhjqkwrypqiu"
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return render_template('main.html')
+    db_connection = DatabaseWorker("project4")
+    results = db_connection.search(query='SELECT * FROM posts', multiple=True)
+    results_with_likes = []
+    for r in results:
+        post_id = r[0]
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+        r = list(r)  # タプルをリストに変換
+        r.append(like_number)  # 各投稿にいいねの数を追加する
+        results_with_likes.append(r)
+        # user_like_with = db_connection.run_query(query=f"-- SELECT * from likes where post_id={post_id} and user_id={user_id}")
+        # print(user_like_with)
+
+    db_connection.close()
+    return render_template('main.html', posts=results_with_likes)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -38,7 +51,7 @@ def login():
             if valid:
                 user_id = row[0]
                 session['user_id'] = user_id
-                return redirect(url_for('register'))
+                return redirect(url_for('main'))
     return render_template('login.html')
     db_connection.close()
 
@@ -66,9 +79,10 @@ def register():
             values ('{uname}','{hash}');
             """
             db_connection.run_query(query=query)
+            db_connection.close()
         return render_template('login.html')
-    return render_template('register.html')
     db_connection.close()
+    return render_template('register.html')
 
 @app.route('/logout')
 def logout():
@@ -78,20 +92,65 @@ def logout():
     session.pop('user_id', None)
     return response
 
-@app.route('/post', methods=['POST'])
-def main():
+@app.route('/main/<int:post_id>', methods=['GET','POST'])
+def view_detail(post_id):
+    db_connection = DatabaseWorker("project4")
+    post=db_connection.search(query=f"SELECT * FROM posts where id = {post_id}", multiple=False)
+
+    return render_template('detail.html', post=post)
+
+
+@app.route('/post',  methods=['GET','POST'])
+def post():
+    db_connection = DatabaseWorker("project4")
+    if session['user_id']:
+        user_id = session['user_id']
     if request.method=='POST':
         date=datetime.now().strftime('%Y%b%d')
-        text=request.form.get('text')
-        genre=request.form.get('genre')
+        text=request.form.get('post_text')
+        user_id=user_id
+        # genre=request.form.get('genre')
         query=f"""
-        INSERT INTO post(date, time)"""
-
+        INSERT INTO posts(date, post_text,user_id) values ('{date}', '{text}','{user_id}')"""
+        db_connection.insert(query=query)
+        db_connection.close()
+        return render_template('main.html')
+    db_connection.close()
     return render_template('post.html')
 
-@app.route('/main')
+@app.route('/main',methods=['GET','POST'])
 def main():
-    return render_template('main.html')
+    db_connection = DatabaseWorker("project4")
+
+    if session['user_id']:
+        user_id = session['user_id']
+        print(user_id)
+    posts=db_connection.search(query='SELECT * FROM posts', multiple=True)
+    post_data = []
+    for post in posts:
+        post_id=post[0]
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+        user_like_with=db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
+        liked = user_like_with is not None
+        post = list(post)
+        post.append(like_number)
+        post.append(liked)
+        post_data.append(post)
+        print(post)
+        print(user_like_with)
+
+        if request.method =='POST':
+            print(user_like_with)
+            query = f"DELETE FROM likes WHERE post_id={post_id} and user_id={user_id}"
+            db_connection.run_query(query=query)
+            print(query)
+            # db_connection.close()
+            # return redirect(url_for('main'))
+            # return render_template('main.html', posts=post_data, like_number=like_number, user_like_with=user_like_with)
+
+    db_connection.close()
+    # return redirect(url_for('main'))
+    return render_template('main.html', posts=post_data)
 
 if __name__ == '__main__':
     app.run()

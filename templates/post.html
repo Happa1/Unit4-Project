@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Post</title>
+    <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>POST</h1>
-
-
+    <h1>POST</h1>
+    <form method="post">
+            <label for="post_text">
+                Enter your question
+                <input type="text" name="post_text" value="{{ question}}">
+            </label>
+{#    <select name="genre">#}
+{#        <option>Language</option>#}
+{#        <option>選択肢のサンプル2</option>#}
+{#        <option>選択肢のサンプル3</option>#}
+{#    </select>#}
+{#        <label>#}
+{#            Genre#}
+{#            <input type="range" name="stars" min="0" max="5">#}
+{#        </label>#}
+        <button class="btn btn-danger" type="submit">Submit</button>
+    </form>
 
 </body>
 </html>

@@ -6,6 +6,7 @@
     <title>Home</title>
 </head>
 <body>
+<h1>Welcome to IB reddit!</h1>
 <div class="side">
     <button><a href="{{ url_for('main') }}">Home</a></button>
 </div>
@@ -14,7 +15,19 @@
 
 <button><a href="{{ url_for('register') }}">Register</a></button>
 
-<button><a href="{{ url_for('login') }}">Login</a></button>
+ {% if logging %}
+{#    <form action="{{ url_for('logout')}}" method="post">#}
+{#        <button type="submit">LOGOUT</button>#}
+    <button type="submit"><a href="{{ url_for('logout') }}">LOGOUT</a></button>
+{#    </form>#}
+{% else %}
+{#    <form action="{{ url_for('login') }}" method="post">#}
+        <button type="submit"><a href="{{ url_for('login') }}">LOGIN</a></button>
+{#    </form>#}
+{% endif %}
+{#<button><a href="{{ url_for('login') }}">Login</a></button>#}
+<button><a href="{{ url_for('my_profile') }}">See my profile</a></button>
+
 
 <form method="post">
     <table class="table">
@@ -22,12 +35,15 @@
     <tr>
         <td>{{ p[1] }}</td>  {#date#}
         <td>{{ p[2] }}</td> {#text#}
+        <td><button><a href="{{ url_for('profile', user=p[3])}}">check profile</a></button></td>
         <td>{{ p[3] }}</td> {#post_user_id#}
         {% if p[5] == True %}
-            <td><button style="background-color: red" name="like_btn">LIKE</button></td>
+            <td><button style="background-color: red" name="like_btn"><a href="{{ url_for('like', post_id=p[0]) }}">LIKE</a></button></td>
         {% else %}
-            <td><button style="background-color: green" name="like_btn">LIKE</button></td>
+            <td><button style="background-color: green" name="like_btn"><a href="{{ url_for('like', post_id=p[0]) }}">LIKE</a></button></td>
         {% endif %}
+{#        <td><button><a href="{{ url_for('user_follow', f_user_id=p[3]) }}">follow</a></button></td>#}
+
         <td>{{ p[4] }}</td>
 {#            <i class="fa-regular fa-heart" style="color: red"></i></td>#}
         <td><button><a href="{{ url_for('view_detail', post_id=p[0]) }}">VIEW POST</a></button></td>

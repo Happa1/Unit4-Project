@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h3>name <br>{{ user[1] }}</h3>
+ {% if following %}
+    <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+        <button type="submit">UNFOLLOW</button>
+    </form>
+{% else %}
+    <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+        <button type="submit">FOLLOW</button>
+    </form>
+{% endif %}
+{#<button><a href="{{ url_for('profile', f_user_id=user[0]) }}">FOLLOW</a></button>#}
+
+
+</body>
+</html>

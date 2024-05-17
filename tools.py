@@ -1,5 +1,7 @@
 # my_lib
 import sqlite3
+
+from flask import session
 from passlib.hash import sha256_crypt
 
 class DatabaseWorker:
@@ -41,3 +43,12 @@ def make_hash(text:str):
 
 def check_hash(hashed_text, text):
     return hasher.verify(text, hashed_text)
+
+
+def logging():
+    login=False
+    user_id = session.get('user_id')  # get()メソッドを使って安全に取得
+    if user_id:
+        print(f"user_id: {user_id}")
+        login = True
+    return login

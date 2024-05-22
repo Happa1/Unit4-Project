@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" href="/static/register.css">
+
 </head>
 <body>
  <div class="w-50p content">
@@ -10,16 +12,24 @@
 
   <form class="modal-content animate" method="post" action="/register">
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+        <div class="register_box">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+        </div>
 
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+        <div class="register_box">
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+        </div>
 
-      <label for="psw_conf"><b>Confirmation Password</b></label>
-      <input type="password" placeholder="Enter Confirmation Password" name="psw_conf" required>
+        <div class="register_box">
+            <label for="psw_conf"><b>Confirmation Password</b></label>
+            <input type="password" placeholder="Enter Confirmation Password" name="psw_conf" required>
+        </div>
 
-      <button type="submit">Register</button>
+        <div>
+            <button type="submit">Register</button>
+        </div>
 
     </div>
   </form>

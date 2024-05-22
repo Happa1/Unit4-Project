@@ -7,20 +7,27 @@
 </head>
 <body>
     <h1>POST</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
             <label for="post_text">
                 Enter your question
                 <input type="text" name="post_text" value="{{ question}}">
             </label>
-{#    <select name="genre">#}
-{#        <option>Language</option>#}
-{#        <option>選択肢のサンプル2</option>#}
-{#        <option>選択肢のサンプル3</option>#}
-{#    </select>#}
-{#        <label>#}
-{#            Genre#}
-{#            <input type="range" name="stars" min="0" max="5">#}
-{#        </label>#}
+
+{#    <form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">#}
+        <input type="file" name="file">
+{#    </form>#}
+    <select name="genre" requierd>
+        <option value="G1">1: Studies in Language and Literature)</option>
+        <option value="G2">2: Language Acquisition</option>
+        <option value="G3">3: Individuals and Societies</option>
+        <option value="G4">4: Experimental Sciences</option>
+        <option value="G5">5: Mathematics</option>
+        <option value="G6">6: The Arts</option>
+        <option value="TOK">TOK</option>
+        <option value="CAS">CAS</option>
+        <option value="EE">EE</option>
+    </select>
+
         <button class="btn btn-danger" type="submit">Submit</button>
     </form>
 

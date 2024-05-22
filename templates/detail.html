@@ -19,15 +19,17 @@
     {% if comments | length==0 %}
         <p>There are no comments yet.</p>
     {% endif %}
-    {% for c in comments %}
+    {% for c in comment_data %}
     	<div>
             <div>{{ c[1] }}</div>{# date #}
-            <div>{{ c[2] }}</div>{# post_id #}
-            <div>{{ c[3] }}</div>{# user_id #}
+            <div>comment user: {{ c[3] }}</div>{# user_id #}
             <div>{{ c[4] }}</div>{# comment #}
-            <a href="{{ url_for('edit_comment', comment_id=c[0], post_id=c[2])}}">Edit</a>
-            <a href="{{ url_for('delete_comment', comment_id=c[0], post_id=c[2])}}"
-            onclick="return confirm('Are you sure want to delete?')">DELETE</a>
+            {% if c[5]==True %}
+            	<a href="{{ url_for('edit_comment', comment_id=c[0], post_id=c[2])}}">Edit</a>
+                <a href="{{ url_for('delete_comment', comment_id=c[0], post_id=c[2])}}"
+                onclick="return confirm('Are you sure want to delete?')">DELETE</a>
+            {% endif %}
+
         </div>
     {% endfor %}
 
@@ -37,7 +39,7 @@
  <form method="post">
     <label for="comment_text">
         Enter your comment
-        <input type="text" name="comment" value="{{comment_text}}">
+        <input type="text" name="comment_text" value="{{comment_text}}">
     </label>
      <button type="submit">Comment</button>
 </form>

@@ -237,6 +237,7 @@ def main():
         print(f"session_id{user_id}")
         posts=db_connection.search(query='SELECT * FROM posts', multiple=True)
         post_data = []
+        # /here
         for post in posts:
             post_id=post[0]
             like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]

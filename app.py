@@ -258,7 +258,6 @@ def main():
         print(f"session_id{logging_user_id}")
         posts=db_connection.search(query='SELECT * FROM posts', multiple=True)
         post_data = []
-        # /here
         for post in posts:
             post_id=post[0]
             post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")

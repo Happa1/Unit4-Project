@@ -226,27 +226,23 @@ input {
   width: 40px;
 }
 
-footer {
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-    bottom: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
+
+.psw_container{
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  width: 280px;
+  align-items: center;
 }
 
-footer p {
-    margin: 10px 0;
+#eye {
+     display: flex;
+     align-items: center;
+     width: 25px;
+     height: 25px;
+     cursor: pointer;
 }
 
-footer i {
-    color: red;
-}
-
-footer a {
-    color: #3c97bf;
-    text-decoration: none;
+#sign_up_btn{
+  margin-top: 10px;
 }

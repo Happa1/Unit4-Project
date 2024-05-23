@@ -3,37 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="/static/register.css">
-
+    <link rel="stylesheet" href="/static/login_register.css">
+    <script src="https://kit.fontawesome.com/82dcdbf5f6.js" crossorigin="anonymous"></script>
 </head>
 <body>
- <div class="w-50p content">
-    <h1>Register</h1>
 
-  <form class="modal-content animate" method="post" action="/register">
-    <div class="container">
-        <div class="register_box">
-            <label for="uname"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
-        </div>
-
-        <div class="register_box">
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-        </div>
-
-        <div class="register_box">
-            <label for="psw_conf"><b>Confirmation Password</b></label>
-            <input type="password" placeholder="Enter Confirmation Password" name="psw_conf" required>
-        </div>
-
-        <div>
-            <button type="submit">Register</button>
-        </div>
-
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form action="/register" method="post">
+      <h1>Create Account</h1>
+      <span>or use your email for registration</span>
+      <input type="text" placeholder="Username" name="uname" required>
+        {% if user_err %}
+            <p>the username is already being used</p>
+        {% endif %}
+      <input type="email" placeholder="Email" name="email" required>
+    {% if email_err %}
+        <p>the email you entered is incorrect</p>
+    {% endif %}
+    <div class="psw_container">
+        <input type="password" placeholder="Password" name="psw" required>
+        <i class="fa-solid fa-eye" id="eye"></i>
     </div>
-  </form>
- </div>
+
+    {% if psw_err %}
+        <p>password needs to be at least 8 characters</p>
+    {% endif %}
+    <div class="psw_container">
+        <input type="password" placeholder="Password confirmation" name="psw_conf" required>
+        <i class="fa-solid fa-eye" id="eye2"></i>
+    </div>
+    {% if psw_cnf_err %}
+        <p>please check the password again</p>
+    {% endif %}
+
+      <button type="submit" id="sign_up_btn">Sign Up</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form action="/login" method="post">
+      <h1>Sign in</h1>
+      <span>or use your account</span>
+      <input type="text" placeholder="Username" name="uname" required>
+      <div class="psw_container">
+            <input type="password" placeholder="Password" name="psw" required>
+            <i class="fa-solid fa-eye" id="eye3"></i>
+      </div>
+      <a href="#">Forgot your password?</a>
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please login with your personal info</p>
+        <button class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Hello, Friend!</h1>
+        <p>Enter your personal details and start journey with us</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="/static/register.js"></script>
 
 </body>
-</html>
+</html>>

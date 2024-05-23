@@ -105,7 +105,7 @@ def login():  # put application's code here
             # response.set_cookie('user_id',f"{user_id}")
             session['user_id'] = user_id
             return redirect(url_for('get_all_food'))
-    return render_template('login.html')
+    return render_template('login2.html')
 
 
 if __name__ == '__main__':

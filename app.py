@@ -31,12 +31,14 @@ def hello_world():  # put application's code here
         post_data = []
         for post in posts:
             post_id = post[0]
+            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {r[3]}")
             like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
             user_like_with = db_connection.search(
                 query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
             liked = user_like_with is not None  # True: if liked, False: if not liked
             post = list(post)  # make post as a list
             post.append(like_number)  # add number of likes to a list of post
+            post.append(post_user_name[0])
             post.append(liked)
             post_data.append(post)  # add post to post_data
         print(f"login condition{logging()}")
@@ -47,12 +49,18 @@ def hello_world():  # put application's code here
         results = db_connection.search(query='SELECT * FROM posts', multiple=True)
         post_data = []
         for r in results:
+            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {r[3]}")
+            print(post_user_name[0])
             post_id = r[0]
             like_number = \
             db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
             r = list(r)  # タプルをリストに変換
             r.append(like_number)  # 各投稿にいいねの数を追加する
+            r.append(post_user_name[0])
             post_data.append(r)
+            print(post_user_name[0])
+
+
         db_connection.close()
         return render_template('main.html', posts=post_data, logging=logging())
 
@@ -79,7 +87,7 @@ def login():
                 session['user_id'] = user_id
                 return redirect(url_for('main'))
     db_connection.close()
-    return render_template('login_register.html')
+    return render_template('login.html')
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -125,9 +133,23 @@ def register():
             return redirect(url_for('login'))
 
         db_connection.close()
-        return render_template('login_register.html', email_err=email_err, psw_err=psw_err, psw_cnf_err=psw_cnf_err,user_err=user_err,)
+        return render_template('register.html', email_err=email_err, psw_err=psw_err, psw_cnf_err=psw_cnf_err,user_err=user_err,)
     db_connection.close()
-    return render_template('login_register.html')
+    return render_template('register.html')
+
+@app.route('/forget_pass_email', methods=['GET','POST'])
+
+@app.route('//reset_pass', methods=['GET','POST'])
+def reset_pass():
+    if logging():
+        user_id = session['user_id']
+        if request.method == "POST":
+            new_comment=request.form.get('comment_text')
+            db_connection.run_query(f"UPDATE comments set comment='{new_comment}' where id={comment_id}")
+            db_connection.close()
+            return redirect(url_for('login'))
+
+    return render_template('reset_pass.html')
 
 @app.route('/logout')
 def logout():
@@ -233,25 +255,24 @@ def main():
     db_connection = DatabaseWorker("project4")
     print(logging())
     if logging():
-        user_id = session['user_id']
-        print(f"session_id{user_id}")
+        logging_user_id = session['user_id']
+        print(f"session_id{logging_user_id}")
         posts=db_connection.search(query='SELECT * FROM posts', multiple=True)
         post_data = []
         # /here
         for post in posts:
             post_id=post[0]
+            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
             like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
-            user_like_with=db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
+            user_like_with=db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={logging_user_id}", multiple=False)
             liked = user_like_with is not None #True: if liked, False: if not liked
             post = list(post) #make post as a list
+            post[3] = post_user_name[0]
             post.append(like_number) #add number of likes to a list of post
+            post.append(post_user_name)
             post.append(liked)
             post_data.append(post) #add post to post_data
 
-        # if request.method =='POST':
-        #     print(f"user_like_with:{user_like_with}")
-        #     query = f"DELETE FROM likes WHERE post_id={post_id} and user_id={user_id}"
-        #     db_connection.run_query(query=query)
         print(f"login condition{logging()}")
         db_connection.close()
         return render_template('main.html', posts=post_data, logging=logging())
@@ -261,9 +282,11 @@ def main():
         post_data = []
         for r in results:
             post_id = r[0]
+            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {r[3]}")
             like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
             r = list(r)  # タプルをリストに変換
             r.append(like_number)  # 各投稿にいいねの数を追加する
+            r.append(post_user_name)
             post_data.append(r)
         # if request.method == 'POST':
         #     return redirect(url_for('login'))
@@ -292,20 +315,27 @@ def like(post_id):
 @app.route('/profile/<int:user>') #user is the user id of the one that you want to see
 def profile(user):
     db_connection = DatabaseWorker("project4")
-    if session['user_id']:
+    if logging():
         user_id=session['user_id']
-    user_pro=db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
-    f_user_with = db_connection.search(
-        query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={user}", multiple=False)
-    print(f_user_with)
-    following = f_user_with is not None
-    return render_template('profile.html', user=user_pro, following=following)
+        user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
+        f_user_with = db_connection.search(
+            query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={user}", multiple=False)
+        print(f_user_with)
+        following = f_user_with is not None
+        return render_template('profile.html', user=user_pro, following=following)
+    else:
+        user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
+        return render_template('profile.html', user=user_pro)
+
+
+
+
     # return redirect((url_for('login')))
 
 @app.route('/profile/<int:f_user_id>/follow', methods=['POST'])
 def user_follow(f_user_id):
     db_connection = DatabaseWorker("project4")
-    if session['user_id']:
+    if logging():
         user_id = session['user_id']
     else:
         return redirect(url_for('login'))
@@ -329,7 +359,7 @@ def my_profile():
         db_connection.close()
         return render_template('my_profile.html',my_profile=my_pro)
     else:
-        return render_template('login.html')
+        return render_template('login2.html')
     # return render_template('my_profile.html',my_profile=my_pro)
 
 

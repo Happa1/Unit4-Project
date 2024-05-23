@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/static/login_register.css">
+    <script src="https://kit.fontawesome.com/82dcdbf5f6.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -20,15 +21,23 @@
     {% if email_err %}
         <p>the email you entered is incorrect</p>
     {% endif %}
-      <input type="password" placeholder="Password" name="psw" required>
+    <div class="psw_container">
+        <input type="password" placeholder="Password" name="psw" required>
+        <i class="fa-solid fa-eye" id="eye"></i>
+    </div>
+
     {% if psw_err %}
         <p>password needs to be at least 8 characters</p>
     {% endif %}
+    <div class="psw_container">
         <input type="password" placeholder="Password confirmation" name="psw_conf" required>
+        <i class="fa-solid fa-eye" id="eye"></i>
+    </div>
     {% if psw_cnf_err %}
         <p>please check the password again</p>
     {% endif %}
-      <button type="submit">Sign Up</button>
+
+      <button type="submit" id="sign_up_btn">Sign Up</button>
     </form>
   </div>
   <div class="form-container sign-in-container">

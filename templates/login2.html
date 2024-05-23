@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cirrus-ui/dist/cirrus.min.css">
+    <link rel="stylesheet" href="/static/my_style.css">
+</head>
+
+<body>
+    <div class="w-50p content">
+    <h1>Login</h1>
+
+  <form class="modal-content animate" method="post">
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <button type="submit">Login</button>
+
+    </div>
+      <div class="container" style="background-color:#f1f1f1">
+          <button type="button" class="cancel_btn"><a href="{{ url_for('main') }}">Cancel</a></button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div>
+  </form>
+</div>
+</body>
+</html>

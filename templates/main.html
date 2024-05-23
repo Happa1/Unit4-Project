@@ -76,7 +76,7 @@
             <div class="post">
             <table class="table">
             <tr>
-                <td>{{ p[3] }}</td> {#post_user_id#}
+                <td>{{ p[7] }}</td> {#post_user_id#}
                 <td><button><a href="{{ url_for('profile', user=p[3])}}">check profile</a></button></td>
                 <td>{{ p[1] }}</td>  {#date#}
             </tr>
@@ -88,13 +88,14 @@
             {% endif %}
 
             <tr>
-                {% if p[7] == True %}
+                {% if p[8] == True %}
                     <td><button name="like_btn" class="like_btn"><a href="{{ url_for('like', post_id=p[0]) }}">
                         <i class="fa fa-heart" style="font-size:30px;color:#ED4987"></i>LIKE</a></button></td>
                 {% else %}
                     <td><button name="not_like_btn" class="like_btn" style="background-color: white "><a href="{{ url_for('like', post_id=p[0]) }}">
                         <i class="fa fa-heart" style="font-size:30px;color:#837379;"></i>LIKE</a></button></td>
                 {% endif %}
+                <td> {{ p[6] }}</td>
                 <td><button><a href="{{ url_for('view_detail', post_id=p[0]) }}">VIEW POST</a></button></td>
             </tr>
 

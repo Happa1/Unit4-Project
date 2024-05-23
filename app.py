@@ -3,7 +3,6 @@ import re
 
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from flask import session
-from flask_login import LoginManager, login_user, login_required, current_user, UserMixin
 import sqlite3
 from tools import DatabaseWorker, make_hash, check_hash, logging
 from datetime import datetime, timedelta
@@ -267,9 +266,8 @@ def main():
             user_like_with=db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={logging_user_id}", multiple=False)
             liked = user_like_with is not None #True: if liked, False: if not liked
             post = list(post) #make post as a list
-            post[3] = post_user_name[0]
             post.append(like_number) #add number of likes to a list of post
-            post.append(post_user_name)
+            post.append(post_user_name[0])
             post.append(liked)
             post_data.append(post) #add post to post_data
 
@@ -286,7 +284,7 @@ def main():
             like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
             r = list(r)  # タプルをリストに変換
             r.append(like_number)  # 各投稿にいいねの数を追加する
-            r.append(post_user_name)
+            r.append(post_user_name[0])
             post_data.append(r)
         # if request.method == 'POST':
         #     return redirect(url_for('login'))

@@ -19,50 +19,30 @@ app.permanent_session_lifetime=timedelta(minutes=30)
 # for row in result:
 #     print(row[1])
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def hello_world():  # put application's code here
     db_connection = DatabaseWorker("project4")
-    print(logging())
-    if logging():
-        user_id = session['user_id']
-        print(f"session_id{user_id}")
-        posts = db_connection.search(query='SELECT * FROM posts', multiple=True)
-        post_data = []
-        for post in posts:
-            post_id = post[0]
-            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {r[3]}")
-            like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+    posts = db_connection.search(query='SELECT * FROM posts', multiple=True)
+    post_data = []
+    for post in posts:
+        post_id = post[0]
+        post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+        comment_number=db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+        post = list(post)  # make post as a list
+        post.append(like_number)  # add number of likes to a list of post
+        post.append(post_user_name[0])
+        post.append(comment_number)
+
+        if logging():
+            user_id = session['user_id']
             user_like_with = db_connection.search(
                 query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
-            liked = user_like_with is not None  # True: if liked, False: if not liked
-            post = list(post)  # make post as a list
-            post.append(like_number)  # add number of likes to a list of post
-            post.append(post_user_name[0])
+            liked = user_like_with is not None
             post.append(liked)
-            post_data.append(post)  # add post to post_data
-        print(f"login condition{logging()}")
-        db_connection.close()
-        return render_template('main.html', posts=post_data, logging=logging())
-
-    else:  # not logging
-        results = db_connection.search(query='SELECT * FROM posts', multiple=True)
-        post_data = []
-        for r in results:
-            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {r[3]}")
-            print(post_user_name[0])
-            post_id = r[0]
-            like_number = \
-            db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
-            r = list(r)  # タプルをリストに変換
-            r.append(like_number)  # 各投稿にいいねの数を追加する
-            r.append(post_user_name[0])
-            post_data.append(r)
-            print(post_user_name[0])
-
-
-        db_connection.close()
-        return render_template('main.html', posts=post_data, logging=logging())
-
+        post_data.append(post)  # add post to post_data
+    db_connection.close()
+    return render_template('main.html', posts=post_data, logging=logging())
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -252,43 +232,30 @@ def post():
 @app.route('/main',methods=['GET','POST'])
 def main():
     db_connection = DatabaseWorker("project4")
-    print(logging())
-    if logging():
-        logging_user_id = session['user_id']
-        print(f"session_id{logging_user_id}")
-        posts=db_connection.search(query='SELECT * FROM posts', multiple=True)
-        post_data = []
-        for post in posts:
-            post_id=post[0]
-            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
-            like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
-            user_like_with=db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={logging_user_id}", multiple=False)
-            liked = user_like_with is not None #True: if liked, False: if not liked
-            post = list(post) #make post as a list
-            post.append(like_number) #add number of likes to a list of post
-            post.append(post_user_name[0])
+    posts = db_connection.search(query='SELECT * FROM posts', multiple=True)
+    post_data = []
+    for post in posts:
+        post_id = post[0]
+        post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[
+            0]
+        comment_number = \
+        db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+        post = list(post)  # make post as a list
+        post.append(like_number)  # add number of likes to a list of post
+        post.append(post_user_name[0])
+        post.append(comment_number)
+
+        if logging():
+            user_id = session['user_id']
+            user_like_with = db_connection.search(
+                query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
+            liked = user_like_with is not None
             post.append(liked)
-            post_data.append(post) #add post to post_data
+        post_data.append(post)  # add post to post_data
+    db_connection.close()
+    return render_template('main.html', posts=post_data, logging=logging())
 
-        print(f"login condition{logging()}")
-        db_connection.close()
-        return render_template('main.html', posts=post_data, logging=logging())
-
-    else: # not logging
-        results = db_connection.search(query='SELECT * FROM posts', multiple=True)
-        post_data = []
-        for r in results:
-            post_id = r[0]
-            post_user_name=db_connection.search(query=f"SELECT username FROM users WHERE id = {r[3]}")
-            like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
-            r = list(r)  # タプルをリストに変換
-            r.append(like_number)  # 各投稿にいいねの数を追加する
-            r.append(post_user_name[0])
-            post_data.append(r)
-        # if request.method == 'POST':
-        #     return redirect(url_for('login'))
-        db_connection.close()
-        return render_template('main.html', posts=post_data, logging=logging())
 
 @app.route('/main/<int:post_id>/like', methods=['GET','POST'])
 def like(post_id):
@@ -299,7 +266,6 @@ def like(post_id):
         return redirect(url_for('login'))
     if logging():
         user_id = session['user_id']
-        print(user_id)
         user_like_with = db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}",multiple=False)
         liked = user_like_with is not None  # True: if liked, False: if not liked
         if liked:

@@ -6,14 +6,18 @@
 </head>
 <body>
 <h3>name <br>{{ user[1] }}</h3>
- {% if following %}
-    <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
-        <button type="submit">UNFOLLOW</button>
-    </form>
+{% if this_is_me==False%}
+     {% if following %}
+        <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+            <button type="submit">UNFOLLOW</button>
+        </form>
+    {% else %}
+        <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+            <button type="submit">FOLLOW</button>
+        </form>
+     {% endif %}
 {% else %}
-    <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
-        <button type="submit">FOLLOW</button>
-    </form>
+    <button><a href="{{ url_for('my_profile') }}">See my profile</a></button>
 {% endif %}
 {#<button><a href="{{ url_for('profile', f_user_id=user[0]) }}">FOLLOW</a></button>#}
 

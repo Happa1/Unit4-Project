@@ -11,12 +11,16 @@
     <h3>Profile</h3>
     <div class="window">
       <div class="overlay"></div>
-      <div class="box header">
-        <img src="/static/profile_image/kumamon.jpeg" alt="" />
-        <h2>Nera Parian Mohn</h2>
-        <h4>Norway</h4>
+      <div class="profile_info">
+          {% if my_profile[5] %}
+          <img src="/static/profile_image{{ my_profile[5] }}" alt=""/>
+          {% else %}
+          <img src="/static/profile_image/blank_user.jpeg" alt=""/>
+          {% endif %}
+        <h2>{{ my_profile[1] }}</h2>
+        <h4>{{ my_profile[4] }}</h4>
       </div>
-      <div class="box footer">
+      <div class="profile_table">
           <table>
               <tr>
                   <th>post</th>
@@ -30,13 +34,11 @@
               </tr>
 
           </table>
-        <ul>
-          <li><a href=""> 401</a></li>
-          <li><a href=""><i class="fa-solid fa-user"></i> 333K</a></li>
-          <li><a href=""><i class="fa-solid" 225M</a></li>
-        </ul>
-{#        <a href="" class="btn">Follow</a>#}
       </div>
+    <button><a href="#">Edit Profile</a></button>
+
+{#        <a href="" class="btn">Follow</a>#}
+
     </div>
 
 

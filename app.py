@@ -51,13 +51,13 @@ def page_not_found(e):
 @app.route('/login', methods=['GET','POST'])
 def login():
     db_connection = DatabaseWorker("project4")
+    login_err=False
     if request.method=='POST':
         uname=request.form.get('uname')
         password=request.form.get('psw')
         #Check database for user, then compare hash for the password
         results=db_connection.search(query="""SELECT * FROM users""", multiple=True)
         for row in results:
-            print(row)
             signature=row[2] #hash text
             hash_text=f"name{uname}, pass{password}"
             valid=check_hash(hashed_text=signature, text=hash_text)
@@ -65,8 +65,10 @@ def login():
                 user_id = row[0]
                 session['user_id'] = user_id
                 return redirect(url_for('main'))
+            else:
+                login_err=True
     db_connection.close()
-    return render_template('login.html')
+    return render_template('login.html', login_err=login_err)
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -84,9 +86,20 @@ def register():
         email_err=False
         psw_err=False
         psw_cnf_err = False
+
+        users_table = db_connection.search(query="SELECT * FROM users", multiple=True)
+
+        for row in users_table:
+            if row[1]==uname:
+                user_err=True
+                print("the user name already exist")
+                valid=False
+                break
+
         if match == None:
             email_err=True
             valid=False
+
         if len(password)<8:
             psw_err=True
             valid = False
@@ -96,13 +109,8 @@ def register():
 
         hash_text=f"name{uname}, pass{password}"
         hash=make_hash(hash_text)
-        users_table = db_connection.search(query="SELECT * FROM users", multiple=True)
 
-        for row in users_table:
-            if row[0]==uname:
-                user_err=True
-                print("the user name already exist")
-                valid=False
+
         if valid:
             query = f"""INSERT INTO users (username,password,email)
             values ('{uname}','{hash}','{email}');
@@ -112,7 +120,7 @@ def register():
             return redirect(url_for('login'))
 
         db_connection.close()
-        return render_template('register.html', email_err=email_err, psw_err=psw_err, psw_cnf_err=psw_cnf_err,user_err=user_err,)
+        return render_template('register.html', email_err=email_err, psw_err=psw_err, psw_cnf_err=psw_cnf_err, user_err=user_err)
     db_connection.close()
     return render_template('register.html')
 
@@ -323,10 +331,13 @@ def my_profile():
     if logging():
         user_id = session['user_id']
         my_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user_id}", multiple=False)
+        post_number=db_connection.search(query=f"SELECT COUNT(*) FROM posts where user_id={user_id}", multiple=False)[0]
+        follower_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE following_user_id={user_id}", multiple=False)[0]
+        following_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE user_id={user_id}", multiple=False)[0]
         db_connection.close()
-        return render_template('my_profile.html',my_profile=my_pro)
+        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number)
     else:
-        return render_template('login2.html')
+        return render_template('login.html')
     # return render_template('my_profile.html',my_profile=my_pro)
 
 

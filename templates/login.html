@@ -49,6 +49,9 @@
             <input type="password" placeholder="Password" name="psw" required>
             <i class="fa-solid fa-eye" id="eye3"></i>
         </div>
+        {% if login_err %}
+            <p>Please check again.</p>
+        {% endif %}
       <a href="#">Forgot your password?</a>
       <button type="submit">Sign In</button>
     </form>

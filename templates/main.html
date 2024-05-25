@@ -4,6 +4,7 @@
     <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/static/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -32,19 +33,15 @@
 <article>
 <div class="side">
     <h2>Subjects</h2>
-    <ul class="accordion-menu">
-      <li>
-        <div class="dropdownlink">
-            <i class="fa fa-road" aria-hidden="true"></i>Group 1<i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </div>
+    <nav>
+        <ul class="accordion-menu">
+      <li class="has-child"><a href="#">Group 1</a>
         <ul class="submenuItems">
           <li><a href="#">English A</a></li>
           <li><a href="#">Japanese A</a></li>
         </ul>
       </li>
-      <li>
-        <div class="dropdownlink"><i class="fa fa-paper-plane" aria-hidden="true"></i>Group 2<i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </div>
+      <li class="has-child"><a href="#">Group 2</a>
         <ul class="submenuItems">
           <li><a href="#">English B</a></li>
           <li><a href="#">Japanese B</a></li>
@@ -52,9 +49,7 @@
           <li><a href="#">Spanish ab initio</a></li>
         </ul>
       </li>
-      <li>
-        <div class="dropdownlink"><i class="fa fa-quote-left" aria-hidden="true"></i>Group 3<i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </div>
+      <li class="has-child"><a href="#">Group 3</a>
         <ul class="submenuItems">
           <li><a href="#">Economics</a></li>
           <li><a href="#">Global Politics</a></li>
@@ -62,9 +57,7 @@
           <li><a href="#">ESS</a></li>
         </ul>
       </li>
-      <li>
-        <div class="dropdownlink"><i class="fa fa-motorcycle" aria-hidden="true"></i>Group 4<i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </div>
+      <li class="has-child"><a href="#">Group 4</a>
         <ul class="submenuItems">
           <li><a href="#">Biology</a></li>
           <li><a href="#">Physics</a></li>
@@ -74,6 +67,10 @@
         </ul>
       </li>
     </ul>
+
+    </nav>
+
+
 </div>
 
 

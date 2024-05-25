@@ -18,17 +18,16 @@
             <p>the username is already being used</p>
         {% endif %}
       <input type="email" placeholder="Email" name="email" required>
-    {% if email_err %}
-        <p>the email you entered is incorrect</p>
-    {% endif %}
+        {% if email_err %}
+            <p>the email you entered is incorrect</p>
+        {% endif %}
     <div class="psw_container">
         <input type="password" placeholder="Password" name="psw" required>
         <i class="fa-solid fa-eye" id="eye"></i>
     </div>
-
-    {% if psw_err %}
-        <p>password needs to be at least 8 characters</p>
-    {% endif %}
+        {% if psw_err %}
+            <p>password needs to be at least 8 characters</p>
+        {% endif %}
     <div class="psw_container">
         <input type="password" placeholder="Password confirmation" name="psw_conf" required>
         <i class="fa-solid fa-eye" id="eye2"></i>
@@ -49,10 +48,14 @@
             <input type="password" placeholder="Password" name="psw" required>
             <i class="fa-solid fa-eye" id="eye3"></i>
       </div>
+        {% if login_err %}
+            <p>Please check again.</p>
+        {% endif %}
       <a href="#">Forgot your password?</a>
       <button type="submit">Sign In</button>
     </form>
   </div>
+
   <div class="overlay-container">
     <div class="overlay">
       <div class="overlay-panel overlay-left">
@@ -73,4 +76,4 @@
 <script src="/static/register.js"></script>
 
 </body>
-</html>>
+</html>

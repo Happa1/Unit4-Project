@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>My_Profile</title>
+    <link rel="stylesheet" href="/static/my_profile.css">
+    <script src="https://kit.fontawesome.com/82dcdbf5f6.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <h3>{{ my_profile }}</h3>
+    <h3>Profile</h3>
+    <div class="window">
+      <div class="overlay"></div>
+      <div class="box header">
+        <img src="/static/profile_image/kumamon.jpeg" alt="" />
+        <h2>Nera Parian Mohn</h2>
+        <h4>Norway</h4>
+      </div>
+      <div class="box footer">
+          <table>
+              <tr>
+                  <th>post</th>
+                  <th>Followers</th>
+                  <th>following</th>
+              </tr>
+              <tr>
+                  <td><i class="fa-solid fa-camera"></i> {{ post_number }}</td>
+                  <td><i class="fa-solid fa-user"></i> {{ follower_number }}</td>
+                  <td><i class="fa-solid fa-user-plus"></i> {{ following_number }}</td>
+              </tr>
+
+          </table>
+        <ul>
+          <li><a href=""> 401</a></li>
+          <li><a href=""><i class="fa-solid fa-user"></i> 333K</a></li>
+          <li><a href=""><i class="fa-solid" 225M</a></li>
+        </ul>
+{#        <a href="" class="btn">Follow</a>#}
+      </div>
+    </div>
+
 
 
 </body>

@@ -334,8 +334,10 @@ def my_profile():
         post_number=db_connection.search(query=f"SELECT COUNT(*) FROM posts where user_id={user_id}", multiple=False)[0]
         follower_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE following_user_id={user_id}", multiple=False)[0]
         following_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE user_id={user_id}", multiple=False)[0]
+        my_posts=db_connection.search(query=f"SELECT * FROM posts where use_id={user_id}", multiple=True)
+
         db_connection.close()
-        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number)
+        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number, my_posts=my_posts)
     else:
         return render_template('login.html')
     # return render_template('my_profile.html',my_profile=my_pro)

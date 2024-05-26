@@ -112,8 +112,8 @@ def register():
 
 
         if valid:
-            query = f"""INSERT INTO users (username,password,email)
-            values ('{uname}','{hash}','{email}');
+            query = f"""INSERT INTO users (username,password,email,pro_msg,pro_img)
+            values ('{uname}','{hash}','{email}','','blank_user.jpeg');
             """
             db_connection.run_query(query=query)
             db_connection.close()
@@ -363,8 +363,18 @@ def my_profile_edit():
     pro_img_old=my_pro[5]
     if request.method=='POST':
         new_pro_msg=request.form.get('pro_msg_text')
-        new_pro_img=request.form.get('pro_img')
-        db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}', pro_img='{new_pro_img}' where id={user_id}")
+        new_pro_img=request.files.get('file')
+        print(f"file {new_pro_img}")
+        if new_pro_img and new_pro_img.filename:  # ファイルが正しくアップロードされているか確認
+            date = datetime.now().strftime('%Y%b%d')
+            file_name = f"{date}_{new_pro_img.filename}"
+            file_path = os.path.join('static/profile_image', file_name)
+            new_pro_img.save(file_path)
+            db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
+            db_connection.run_query(f"UPDATE users set pro_img='{file_name}' where id={user_id}")
+
+        else:
+            db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
         db_connection.close()
         return redirect((url_for('my_profile')))
 

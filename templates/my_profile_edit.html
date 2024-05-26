@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>my_profile_edit</title>
+    <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
     <div class="profile_info_container">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="profile_info">
-          {% if my_profile[5] %}
-          <img src="/static/profile_image{{ my_profile[5] }}" alt=""/>
-          {% else %}
-          <img src="/static/profile_image/blank_user.jpeg" alt=""/>
-          {% endif %}
+        <img id="img" accept="image/*" src="/static/profile_image/{{ my_profile[5] }}">
+
+        <div class="buttons">
+          <!-- フォーム -->
+          <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
+          <!-- 画像削除ボタン -->
+          <button type="button" id="delete">reset</button>
+        </div>
+
+{#          {% if my_profile[5] %}#}
+{#          <img src="/static/profile_image{{ my_profile[5] }}" alt=""/>#}
+{#          {% else %}#}
+{#          <img src="/static/profile_image/blank_user.jpeg" alt=""/>#}
+{#          {% endif %}#}
+
         <label for="pro_msg_text">
             profile message
             <input type="text" name="pro_msg_text" value="{{pro_msg_text}}">
@@ -22,6 +35,6 @@
     </form>
 
     </div>
-
+<script src="/static/my_profile_edit.js"></script>
 </body>
 </html>

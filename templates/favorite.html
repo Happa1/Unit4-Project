@@ -2,22 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Topic</title>
+    <title>Favorite</title>
 </head>
 <body>
-<div class="posts">
-<h1>topic</h1>
-        <h2>{{ topic_name }}</h2>
-
-        <form action="{{ url_for('topic_follow', topic_id=topic_id) }}" method="post">
-            {% if following %}
-                <button type="submit">UNFOLLOW</button>
-                <p>following</p>
-            {% else %}
-                <button type="submit">FOLLOW</button>
-                <p>not following</p>
-            {% endif %}
-        </form>
+<h2>My Favorite Posts</h2>
 
     <form method="post" class="form_post_container">
         {% for p in posts%}

@@ -17,7 +17,7 @@
             <button type="submit">FOLLOW</button>
         </form>
      {% endif %}
-{% else %}
+{% elif this_is_me==True %}
     <button><a href="{{ url_for('my_profile') }}">See my profile</a></button>
 {% endif %}
 {#<button><a href="{{ url_for('profile', f_user_id=user[0]) }}">FOLLOW</a></button>#}

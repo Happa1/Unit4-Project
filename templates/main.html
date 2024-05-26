@@ -66,6 +66,9 @@
           <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
         </ul>
       </li>
+            {% if logging %}
+            <li><a href="{{ url_for('favorite') }}">Favorite</a> </li>
+            {% endif %}
     </ul>
 
     </nav>

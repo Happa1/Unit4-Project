@@ -8,16 +8,9 @@ from tools import DatabaseWorker, make_hash, check_hash, logging
 from datetime import datetime, timedelta
 from flask import g
 
-
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime=timedelta(minutes=30)
-
-# db_name="project4"
-# db_connection=DatabaseWorker("project4")
-# result=db_connection.search(query="SELECT * FROM users", multiple=True)
-# for row in result:
-#     print(row[1])
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():  # put application's code here
@@ -163,13 +156,21 @@ def topic(topic_id):
 
     topic_name=topic_dict[topic_id]
 
-    posts =db_connection.search(query=f"SELECT * FROM posts WHERE subject={topic_id}", multiple=True)
+    posts =db_connection.search(query=f"SELECT * FROM posts WHERE subject='{topic_id}'", multiple=True)
     post_data = []
+    following=False
+    if logging():
+        user_id = session['user_id']
+        f_topic_with = db_connection.search(
+            query=f"SELECT * from topic_follows where user_id={user_id} and following_topic='{topic_id}'",
+            multiple=False)
+        print(f_topic_with)
+        following = f_topic_with is not None
+
     for post in posts:
         post_id = post[0]
         post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
-        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[
-            0]
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
         comment_number = db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
         post = list(post)  # make post as a list
         post.append(like_number)  # add number of likes to a list of post
@@ -182,9 +183,57 @@ def topic(topic_id):
                 query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
             liked = user_like_with is not None
             post.append(liked)
-        post_data.append(post)  # add post to post_data
+            post_data.append(post)  # add post to post_data
+            # db_connection.close()
+            # return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name,
+            #                        topic_id=topic_id, following=following)
+        else:
+            post_data.append(post)  # add post to post_data
+            db_connection.close()
+
+    print(f"following {following}")
+    return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name,
+                               topic_id=topic_id, following=following)
+
+    # db_connection.close()
+    # return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name, topic_id=topic_id, following=following)
+
+
+@app.route('/favorite', methods=['GET','POST'])
+def favorite():
+    db_connection = DatabaseWorker("project4")
+    user_id = session['user_id']
+    fav_post_data=[]
+
+
+    fav_posts=db_connection.search(query=f"""
+    SELECT posts.*
+    FROM posts
+    JOIN topic_follows ON posts.subject = topic_follows.following_topic
+    WHERE topic_follows.user_id = {user_id}
+    """, multiple=True)
+
+    print(fav_posts)
+
+    for post in fav_posts:
+        post_id = post[0]
+        post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[
+            0]
+        comment_number = \
+        db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+        post = list(post)  # make post as a list
+        post.append(like_number)  # add number of likes to a list of post
+        post.append(post_user_name[0])
+        post.append(comment_number)
+        user_like_with = db_connection.search(
+            query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
+        liked = user_like_with is not None
+        post.append(liked)
+        fav_post_data.append(post)
+
     db_connection.close()
-    return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name)
+    return render_template('favorite.html', posts=fav_post_data)
 
 
 
@@ -244,7 +293,6 @@ def view_detail(post_id):
         comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
         db_connection.close()
         return render_template('detail.html', post=post, comment_data=comments)
-
 
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/edit', methods=['GET','POST'])
 def edit_comment(post_id, comment_id):
@@ -365,10 +413,6 @@ def profile(user):
         return render_template('profile.html', user=user_pro)
 
 
-
-
-    # return redirect((url_for('login')))
-
 @app.route('/profile/<int:f_user_id>/follow', methods=['POST'])
 def user_follow(f_user_id):
     db_connection = DatabaseWorker("project4")
@@ -387,23 +431,26 @@ def user_follow(f_user_id):
     db_connection.close()
     return redirect(url_for('profile', user=user_pro[0]))
 
-@app.route('/topic/<int:topic_id>/follow', methods=['POST'])
+@app.route('/topic/<topic_id>/follow', methods=['POST'])
 def topic_follow(topic_id):
+    db_connection = DatabaseWorker("project4")
     if logging():
         user_id = session['user_id']
+        print('logging topic')
     else:
+        print("pressed")
         return redirect(url_for('login'))
     f_topic_with = db_connection.search(
-        query=f"SELECT * from topic_follows where user_id={user_id} and following_user_id={user_id}", multiple=False)
+        query=f"SELECT * from topic_follows where user_id={user_id} and following_topic='{topic_id}'", multiple=False)
     following = f_topic_with is not None  # True: if following, False: if not following
     if following:
         db_connection.run_query(
             query=f"DELETE FROM topic_follows WHERE user_id={user_id} and following_topic='{topic_id}'")
     else:
         db_connection.run_query(
-            query=f"INSERT INTO user_follows (user_id, following_topic) values ({user_id},'{topic_id}')")
+            query=f"INSERT INTO topic_follows (user_id, following_topic) values ({user_id},'{topic_id}')")
     db_connection.close()
-    return redirect(url_for('topic'))
+    return redirect(url_for('topic', topic_id=topic_id))
 
 @app.route('/my_profile', methods=['POST', 'GET'])
 def my_profile():

@@ -176,6 +176,7 @@ def topic(topic_id):
         post.append(like_number)  # add number of likes to a list of post
         post.append(post_user_name[0])
         post.append(comment_number)
+        print(post[4])
 
         if logging():
             user_id = session['user_id']
@@ -184,9 +185,7 @@ def topic(topic_id):
             liked = user_like_with is not None
             post.append(liked)
             post_data.append(post)  # add post to post_data
-            # db_connection.close()
-            # return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name,
-            #                        topic_id=topic_id, following=following)
+
         else:
             post_data.append(post)  # add post to post_data
             db_connection.close()
@@ -218,10 +217,8 @@ def favorite():
     for post in fav_posts:
         post_id = post[0]
         post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
-        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[
-            0]
-        comment_number = \
-        db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+        comment_number = db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
         post = list(post)  # make post as a list
         post.append(like_number)  # add number of likes to a list of post
         post.append(post_user_name[0])
@@ -234,8 +231,6 @@ def favorite():
 
     db_connection.close()
     return render_template('favorite.html', posts=fav_post_data)
-
-
 
 @app.route('//reset_pass', methods=['GET','POST'])
 def reset_pass():

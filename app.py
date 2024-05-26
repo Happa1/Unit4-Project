@@ -126,7 +126,7 @@ def register():
 
 @app.route('/forget_pass_email', methods=['GET','POST'])
 
-@app.route('/topic/<int:topic_id>', methods=['GET','POST'])
+@app.route('/topic/<topic_id>', methods=['GET','POST'])
 def topic(topic_id):
     db_connection = DatabaseWorker("project4")
     topic_dict={
@@ -161,6 +161,7 @@ def topic(topic_id):
         'Ch': 'Theatre'
     }
 
+    topic_name=topic_dict[topic_id]
 
     posts =db_connection.search(query=f"SELECT * FROM posts WHERE subject={topic_id}", multiple=True)
     post_data = []
@@ -183,7 +184,7 @@ def topic(topic_id):
             post.append(liked)
         post_data.append(post)  # add post to post_data
     db_connection.close()
-    return render_template('topic.html', posts=post_data, logging=logging())
+    return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name)
 
 
 

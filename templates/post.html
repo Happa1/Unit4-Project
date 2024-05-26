@@ -4,18 +4,38 @@
     <meta charset="UTF-8">
     <title>Post</title>
     <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/post.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
     <h1>POST</h1>
     <form method="post" enctype="multipart/form-data">
             <label for="post_text">
                 Enter your question
-                <input type="text" name="post_text" value="{{ question}}">
+                <textarea name="post_text" value="{{ question }}" rows="5" cols="20"></textarea>
+{#                <input type="text" name="post_text" value="{{ question}}">#}
             </label>
 
 {#    <form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">#}
-        <input type="file" name="file">
-{#    </form>#}
+
+{#        <div class="input_file">#}
+{#            <div class="preview">#}
+{#            <input type="file" name="file" accept="image/*" id="imgFile" >#}
+{#            </div>#}
+{#            <p class="btn_upload">#}
+{#                画像ファイルを選択してアップロード#}
+{#            </p>#}
+{#        </div>#}
+
+
+    <img id="img" accept="image/*" src="/static/image/upload_img.jpeg">
+    <div class="buttons">
+      <!-- フォーム -->
+      <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
+      <!-- 画像削除ボタン -->
+      <button type="button" id="delete">reset</button>
+    </div>
 
     <div class="pulldownset">
          <select name="genre" class="main_select" requierd>

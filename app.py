@@ -329,18 +329,48 @@ def user_follow(f_user_id):
 def my_profile():
     db_connection = DatabaseWorker("project4")
     if logging():
-        user_id = session['user_id']
-        my_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user_id}", multiple=False)
-        post_number=db_connection.search(query=f"SELECT COUNT(*) FROM posts where user_id={user_id}", multiple=False)[0]
-        follower_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE following_user_id={user_id}", multiple=False)[0]
-        following_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE user_id={user_id}", multiple=False)[0]
-        my_posts=db_connection.search(query=f"SELECT * FROM posts where use_id={user_id}", multiple=True)
+        logging_user_id = session['user_id']
+        my_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={logging_user_id}", multiple=False)
+        post_number=db_connection.search(query=f"SELECT COUNT(*) FROM posts where user_id={logging_user_id}", multiple=False)[0]
+        follower_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE following_user_id={logging_user_id}", multiple=False)[0]
+        following_number=db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE user_id={logging_user_id}", multiple=False)[0]
+        my_posts=db_connection.search(query=f"SELECT * FROM posts WHERE user_id={logging_user_id}", multiple=True)
+
+        my_post_data = []
+        for post in my_posts:
+            post_id = post[0]
+            post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+            like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+            comment_number = db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+            post = list(post)  # make post as a list
+            post.append(like_number)  # add number of likes to a list of post
+            post.append(post_user_name[0])
+            post.append(comment_number)
+            my_post_data.append(post)
 
         db_connection.close()
-        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number, my_posts=my_posts)
+        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number, my_posts=my_post_data)
     else:
         return render_template('login.html')
     # return render_template('my_profile.html',my_profile=my_pro)
+
+@app.route('/my_profile/edit', methods=['GET', 'POST'])
+def my_profile_edit():
+    db_connection = DatabaseWorker("project4")
+    user_id = session['user_id']
+    my_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user_id}", multiple=False)
+    pro_msg_text=my_pro[4]
+    pro_img_old=my_pro[5]
+    if request.method=='POST':
+        new_pro_msg=request.form.get('pro_msg_text')
+        new_pro_img=request.form.get('pro_img')
+        db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}', pro_img='{new_pro_img}' where id={user_id}")
+        db_connection.close()
+        return redirect((url_for('my_profile')))
+
+    db_connection.close()
+    return render_template('my_profile_edit.html', pro_img_old=pro_img_old, pro_msg_text=pro_msg_text, my_profile=my_pro)
+
 
 
 if __name__ == '__main__':

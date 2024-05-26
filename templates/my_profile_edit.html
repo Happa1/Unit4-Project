@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>my_profile_edit</title>
+</head>
+<body>
+    <div class="profile_info_container">
+    <form method="post">
+        <div class="profile_info">
+          {% if my_profile[5] %}
+          <img src="/static/profile_image{{ my_profile[5] }}" alt=""/>
+          {% else %}
+          <img src="/static/profile_image/blank_user.jpeg" alt=""/>
+          {% endif %}
+        <label for="pro_msg_text">
+            profile message
+            <input type="text" name="pro_msg_text" value="{{pro_msg_text}}">
+        </label>
+        <button type="submit">Change</button>
+      </div>
+    </form>
+
+    </div>
+
+</body>
+</html>

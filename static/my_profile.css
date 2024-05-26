@@ -1,4 +1,8 @@
-.header img {
+.profile_info_container{
+  margin: auto;
+}
+
+.profile_info img {
   border: 5px solid #A1DCFF;
   border-radius: 100%;
   height: 140px;
@@ -7,7 +11,7 @@
   width: 140px;
 }
 
-.header h2 {
+.profile_info h2 {
   display: inline-block;
   font-family: 'Quicksand', sans-serif;
   font-size: 28px;

@@ -9,8 +9,7 @@
 </head>
 <body>
     <h3>Profile</h3>
-    <div class="window">
-      <div class="overlay"></div>
+    <div class="profile_info_container">
       <div class="profile_info">
           {% if my_profile[5] %}
           <img src="/static/profile_image{{ my_profile[5] }}" alt=""/>
@@ -35,10 +34,48 @@
 
           </table>
       </div>
-    <button><a href="#">Edit Profile</a></button>
+    <button><a href="{{ url_for('my_profile_edit') }}">Edit Profile</a></button>
 
 {#        <a href="" class="btn">Follow</a>#}
 
+    </div>
+
+    <div class="my_posts">
+        <form method="post" class="form_post_container">
+
+        {% for p in my_posts%}
+        <div class="post_container">
+            <div class="top_container">
+                <p><a href="{{ url_for('profile', user=p[3])}}">{{ p[8] }}</a></p>
+
+                <p>{{ p[1] }}</p>
+            </div>
+
+            <p class="post_text">{{ p[2] }}</p>
+
+            {% if p[4] is not none and p[4]|length != 0 %}
+                <div class="image_container">
+                    <img class="image" src="{{ 'static/post_image/' + p[4] }}" alt="Image">
+                </div>
+            {% endif %}
+
+            <div class="bottom_container">
+                <button><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-clipboard"></i>VIEW POST</a></button>
+                {% if p[10] == True %}
+                    <button name="like_btn" class="like_btn"><a href="{{ url_for('like', post_id=p[0]) }}">
+                        <i class="fa fa-heart" style="font-size:20px;color:#ED4987"></i>{{ p[7] }}</a></button>
+                {% else %}
+                    <button name="not_like_btn" class="like_btn" style="background-color: white "><a href="{{ url_for('like', post_id=p[0]) }}">
+                        <i class="fa fa-heart" style="font-size:20px;color:#837379;"></i>{{ p[7] }}</a></button>
+                {% endif %}
+                <button class="comment_btn"><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-comment"></i>Comment {{ p[9] }}</a></button>
+            </div>
+
+        </div>
+        {% endfor %}
+
+
+        </form>
     </div>
 
 

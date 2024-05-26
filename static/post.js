@@ -28,3 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
    }
 
 });
+
+$('#form').on('change', function (e) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        $("#img").attr('src', e.target.result);
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+// 削除ボタンクリック時にフォームとプレビューを初期化
+$('#delete').on('click', function (e) {
+  $("#img").attr('src', '/static/image/upload_img.jpeg');
+  $("#form").val('');
+});

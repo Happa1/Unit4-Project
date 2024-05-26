@@ -37,33 +37,33 @@
         <ul class="accordion-menu">
       <li class="has-child"><a href="#">Group 1</a>
         <ul class="submenuItems">
-          <li><a href="#">English A</a></li>
-          <li><a href="#">Japanese A</a></li>
+          <li><a href="{{ url_for('topic', topic_id='EA') }}">English A</a></li>
+          <li><a href="{{ url_for('topic', topic_id='JA') }}">Japanese A</a></li>
         </ul>
       </li>
       <li class="has-child"><a href="#">Group 2</a>
         <ul class="submenuItems">
-          <li><a href="#">English B</a></li>
-          <li><a href="#">Japanese B</a></li>
-          <li><a href="#">Chinese ab initio</a></li>
-          <li><a href="#">Spanish ab initio</a></li>
+          <li><a href="{{ url_for('topic', topic_id='EB') }}">English B</a></li>
+          <li><a href="{{ url_for('topic', topic_id='JB') }}">Japanese B</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Cab') }}">Chinese ab initio</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Sab') }}">Spanish ab initio</a></li>
         </ul>
       </li>
       <li class="has-child"><a href="#">Group 3</a>
         <ul class="submenuItems">
-          <li><a href="#">Economics</a></li>
-          <li><a href="#">Global Politics</a></li>
-          <li><a href="#">History</a></li>
-          <li><a href="#">ESS</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ec') }}">Economics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Gp') }}">Global Politics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='hi') }}">History</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
         </ul>
       </li>
       <li class="has-child"><a href="#">Group 4</a>
         <ul class="submenuItems">
-          <li><a href="#">Biology</a></li>
-          <li><a href="#">Physics</a></li>
-          <li><a href="#">Chemistry</a></li>
-          <li><a href="#">Computer Science</a></li>
-          <li><a href="#">ESS</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Bi') }}">Biology</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ph') }}">Physics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ch') }}">Chemistry</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Co') }}">Computer Science</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
         </ul>
       </li>
     </ul>

@@ -6,6 +6,7 @@
 </head>
 <body>
 <h3>name <br>{{ user[1] }}</h3>
+
 {% if this_is_me==False%}
      {% if following %}
         <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">

@@ -2,44 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My_Profile</title>
-    <link rel="stylesheet" href="/static/my_profile.css">
-    <script src="https://kit.fontawesome.com/82dcdbf5f6.js" crossorigin="anonymous"></script>
-
+    <title>Topic</title>
 </head>
 <body>
-    <h3>Profile</h3>
-    <div class="profile_info_container">
-      <div class="profile_info">
-        <img src="{{ 'static/profile_image/' + my_profile[5] }}">
-        <h2>{{ my_profile[1] }}</h2>
-        <h4>{{ my_profile[4] }}</h4>
-      </div>
-      <div class="profile_table">
-          <table>
-              <tr>
-                  <th>post</th>
-                  <th>Followers</th>
-                  <th>following</th>
-              </tr>
-              <tr>
-                  <td><i class="fa-solid fa-camera"></i> {{ post_number }}</td>
-                  <td><i class="fa-solid fa-user"></i> {{ follower_number }}</td>
-                  <td><i class="fa-solid fa-user-plus"></i> {{ following_number }}</td>
-              </tr>
-
-          </table>
-      </div>
-    <button><a href="{{ url_for('my_profile_edit') }}">Edit Profile</a></button>
-
-{#        <a href="" class="btn">Follow</a>#}
-
-    </div>
-
-    <div class="my_posts">
+<div class="posts">
         <form method="post" class="form_post_container">
+        <h2>{{  }}</h2>
 
-        {% for p in my_posts%}
+        <button class="topic_follow_btn">Follow</button>
+
+        {% for p in posts%}
         <div class="post_container">
             <div class="top_container">
                 <p><a href="{{ url_for('profile', user=p[3])}}">{{ p[8] }}</a></p>
@@ -73,8 +45,6 @@
 
         </form>
     </div>
-
-
 
 </body>
 </html>

@@ -126,6 +126,67 @@ def register():
 
 @app.route('/forget_pass_email', methods=['GET','POST'])
 
+@app.route('/topic/<int:topic_id>', methods=['GET','POST'])
+def topic(topic_id):
+    db_connection = DatabaseWorker("project4")
+    topic_dict={
+        'G1': '1: Studies in Language and Literature',
+        'G2': '2: Language Acquisition',
+        'G3': '3: Individuals and Societies',
+        'G4': '4: Experimental Sciences',
+        'G5': '5: Mathematics',
+        'G6': '6: The Arts',
+        'TOK': 'TOK',
+        'CAS': 'CAS',
+        'EE': 'EE',
+        'EA': 'English A',
+        'JA': 'Japanese A',
+        'EB': 'English B',
+        'JB': 'Japanese B',
+        'Jab': 'Japanese ab initio',
+        'Cab': 'Chinese ab initio',
+        'Sab': 'Spanish ab initio',
+        'Ec': 'Economics',
+        'Gp': 'Global Politics',
+        'Hi': 'History',
+        'Es': 'ESS',
+        'Bi': 'Biology',
+        'Ph': 'Physics',
+        'Ch': 'Chemistry',
+        'Co': 'Computer Science',
+        'MA': 'Math AA',
+        'MI': 'Math IA',
+        'Bi': 'Visual Art',
+        'Ph': 'Film',
+        'Ch': 'Theatre'
+    }
+
+
+    posts =db_connection.search(query=f"SELECT * FROM posts WHERE subject={topic_id}", multiple=True)
+    post_data = []
+    for post in posts:
+        post_id = post[0]
+        post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+        like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[
+            0]
+        comment_number = db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+        post = list(post)  # make post as a list
+        post.append(like_number)  # add number of likes to a list of post
+        post.append(post_user_name[0])
+        post.append(comment_number)
+
+        if logging():
+            user_id = session['user_id']
+            user_like_with = db_connection.search(
+                query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}", multiple=False)
+            liked = user_like_with is not None
+            post.append(liked)
+        post_data.append(post)  # add post to post_data
+    db_connection.close()
+    return render_template('topic.html', posts=post_data, logging=logging())
+
+
+
 @app.route('//reset_pass', methods=['GET','POST'])
 def reset_pass():
     if logging():
@@ -324,6 +385,24 @@ def user_follow(f_user_id):
         db_connection.run_query(query=f"INSERT INTO user_follows (user_id, following_user_id) values ({user_id},{f_user_id})")
     db_connection.close()
     return redirect(url_for('profile', user=user_pro[0]))
+
+@app.route('/topic/<int:topic_id>/follow', methods=['POST'])
+def topic_follow(topic_id):
+    if logging():
+        user_id = session['user_id']
+    else:
+        return redirect(url_for('login'))
+    f_topic_with = db_connection.search(
+        query=f"SELECT * from topic_follows where user_id={user_id} and following_user_id={user_id}", multiple=False)
+    following = f_topic_with is not None  # True: if following, False: if not following
+    if following:
+        db_connection.run_query(
+            query=f"DELETE FROM topic_follows WHERE user_id={user_id} and following_topic='{topic_id}'")
+    else:
+        db_connection.run_query(
+            query=f"INSERT INTO user_follows (user_id, following_topic) values ({user_id},'{topic_id}')")
+    db_connection.close()
+    return redirect(url_for('topic'))
 
 @app.route('/my_profile', methods=['POST', 'GET'])
 def my_profile():

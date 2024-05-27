@@ -6,39 +6,110 @@
     <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/post.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
-    <h1>POST</h1>
-    <form method="post" enctype="multipart/form-data">
-            <label for="post_text">
-                Enter your question
-                <textarea name="post_text" value="{{ question }}" rows="5" cols="20"></textarea>
-{#                <input type="text" name="post_text" value="{{ question}}">#}
-            </label>
+<header>
+    <div class="header_container">
+        <h1><a href="{{ url_for('main') }}">IB reddit!</a> </h1>
+        <div class="header_btn_container">
+            <button class="header_btn"><a href="{{ url_for('post') }}">Post</a></button>
 
-{#    <form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">#}
+            {% if logging %}
+                <button class="header_btn"><a href="{{ url_for('my_profile') }}">See my profile</a></button>
+                 <button class="header_btn" type="submit"><a href="{{ url_for('logout') }}">LOGOUT</a></button>
+            {% else %}
+                    <button class="header_btn"><a href="{{ url_for('register') }}">Register</a></button>
+                    <button class="header_btn" type="submit"><a href="{{ url_for('login') }}">LOGIN</a></button>
+            {% endif %}
+        </div>
 
-{#        <div class="input_file">#}
-{#            <div class="preview">#}
-{#            <input type="file" name="file" accept="image/*" id="imgFile" >#}
-{#            </div>#}
-{#            <p class="btn_upload">#}
-{#                画像ファイルを選択してアップロード#}
-{#            </p>#}
-{#        </div>#}
-
-
-    <img id="img" accept="image/*" src="/static/image/upload_img.jpeg">
-    <div class="buttons">
-      <!-- フォーム -->
-      <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
-      <!-- 画像削除ボタン -->
-      <button type="button" id="delete">reset</button>
     </div>
 
+</header>
+<div class="side">
+    <h2>Topics</h2>
+    <nav>
+        <ul class="accordion-menu">
+      <li class="has-child"><a href="#"><i class="fa-solid fa-language"></i> Group 1</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='EA') }}">English A</a></li>
+          <li><a href="{{ url_for('topic', topic_id='JA') }}">Japanese A</a></li>
+        </ul>
+      </li>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-globe"></i> Group 2</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='EB') }}">English B</a></li>
+          <li><a href="{{ url_for('topic', topic_id='JB') }}">Japanese B</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Cab') }}">Chinese ab initio</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Sab') }}">Spanish ab initio</a></li>
+        </ul>
+      </li>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-landmark"></i> Group 3</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Ec') }}">Economics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Gp') }}">Global Politics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='hi') }}">History</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
+        </ul>
+      </li>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-flask"></i> Group 4</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Bi') }}">Biology</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ph') }}">Physics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ch') }}">Chemistry</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Co') }}">Computer Science</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
+        </ul>
+      </li>
+
+      <li class="has-child"><a href="#"><i class="fa-solid fa-calculator"></i> Group 5</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='MA') }}">Math AA</a></li>
+          <li><a href="{{ url_for('topic', topic_id='MI') }}">Math AI</a></li>
+        </ul>
+      </li>
+
+      <li class="has-child"><a href="#"><i class="fa-solid fa-palette"></i> Group 6</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Vi') }}">Visual Art</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Fi') }}">Film</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Th') }}">Theatre</a></li>
+        </ul>
+      </li>
+            {% if logging %}
+            <li><a href="{{ url_for('favorite') }}"><i class="fa-solid fa-heart"></i> Favorite</a> </li>
+            {% endif %}
+    </ul>
+
+    </nav>
+
+
+</div>
+<div class="main">
+    <h1>POST</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="box_container">
+            <div class="question_box">
+                <p>Entre your question.</p>
+            <label for="post_text">
+                <textarea name="post_text" value="{{ question }}" rows="5" cols="20"></textarea>
+            </label>
+        </div>
+        <div class="image_box">
+            <img id="img" accept="image/*" src="/static/image/upload_img.jpeg">
+            <div class="buttons">
+              <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
+              <button type="button" id="delete">reset</button>
+            </div>
+        </div>
+        </div>
+
+
     <div class="pulldownset">
-         <select name="genre" class="main_select" requierd>
+    <select name="genre" class="main_select" requierd>
          <option value="">Select the group</option>
         <option value="G1">1: Studies in Language and Literature)</option>
         <option value="G2">2: Language Acquisition</option>
@@ -100,7 +171,10 @@
 
         <button class="btn btn-danger" type="submit">Submit</button>
     </form>
+</div>
+
 
 <script src="/static/post.js"></script>
+<script src="/static/main.js"></script>
 </body>
 </html>

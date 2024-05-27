@@ -133,6 +133,10 @@ a{
 
 .post_text{
     font-size: 30px;
+    overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; /* 行数を指定 */
 }
 
 .image_container{

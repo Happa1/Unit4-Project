@@ -3,9 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Topic</title>
+    <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
-<div class="posts">
+<header>
+    <div class="header_container">
+        <h1><a href="{{ url_for('main') }}">IB reddit!</a> </h1>
+        <div class="header_btn_container">
+            <button class="header_btn"><a href="{{ url_for('post') }}">Post</a></button>
+
+            {% if logging %}
+                <button class="header_btn"><a href="{{ url_for('my_profile') }}">See my profile</a></button>
+                 <button class="header_btn" type="submit"><a href="{{ url_for('logout') }}">LOGOUT</a></button>
+            {% else %}
+                    <button class="header_btn"><a href="{{ url_for('register') }}">Register</a></button>
+                    <button class="header_btn" type="submit"><a href="{{ url_for('login') }}">LOGIN</a></button>
+            {% endif %}
+        </div>
+
+    </div>
+
+</header>
+<article>
+<div class="side">
+    <h2>Topics</h2>
+    <nav>
+        <ul class="accordion-menu">
+      <li class="has-child"><a href="#"><i class="fa-solid fa-language"></i> Group 1</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='EA') }}">English A</a></li>
+          <li><a href="{{ url_for('topic', topic_id='JA') }}">Japanese A</a></li>
+        </ul>
+      </li>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-globe"></i> Group 2</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='EB') }}">English B</a></li>
+          <li><a href="{{ url_for('topic', topic_id='JB') }}">Japanese B</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Cab') }}">Chinese ab initio</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Sab') }}">Spanish ab initio</a></li>
+        </ul>
+      </li>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-landmark"></i> Group 3</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Ec') }}">Economics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Gp') }}">Global Politics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='hi') }}">History</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
+        </ul>
+      </li>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-flask"></i> Group 4</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Bi') }}">Biology</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ph') }}">Physics</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Ch') }}">Chemistry</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Co') }}">Computer Science</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
+        </ul>
+      </li>
+
+      <li class="has-child"><a href="#"><i class="fa-solid fa-calculator"></i> Group 5</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='MA') }}">Math AA</a></li>
+          <li><a href="{{ url_for('topic', topic_id='MI') }}">Math AI</a></li>
+        </ul>
+      </li>
+
+      <li class="has-child"><a href="#"><i class="fa-solid fa-palette"></i> Group 6</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Vi') }}">Visual Art</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Fi') }}">Film</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Th') }}">Theatre</a></li>
+        </ul>
+      </li>
+            {% if logging %}
+            <li><a href="{{ url_for('favorite') }}"><i class="fa-solid fa-heart"></i> Favorite</a> </li>
+            {% endif %}
+    </ul>
+
+    </nav>
+
+
+</div>
+    <div class="main">
+        <div class="posts">
 <h1>topic</h1>
         <h2>{{ topic_name }}</h2>
 
@@ -54,6 +138,9 @@
 
         </form>
     </div>
+    </div>
+</article>
+<script src="/static/main.js"></script>
 
 </body>
 </html>

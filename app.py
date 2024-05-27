@@ -231,7 +231,7 @@ def favorite():
         fav_post_data.append(post)
 
     db_connection.close()
-    return render_template('favorite.html', posts=fav_post_data)
+    return render_template('favorite.html', posts=fav_post_data, logging=logging())
 
 @app.route('//reset_pass', methods=['GET','POST'])
 def reset_pass():
@@ -283,12 +283,12 @@ def view_detail(post_id):
             db_connection.insert(query=query)
             db_connection.close()
             return redirect(url_for('view_detail',post_id=post_id))
-        return render_template('detail.html', post=post, comment_data=comment_data)
+        return render_template('detail.html', post=post, comment_data=comment_data, logging=logging())
     else:
         post = db_connection.search(query=f"SELECT * FROM posts where id = {post_id}", multiple=False)
         comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
         db_connection.close()
-        return render_template('detail.html', post=post, comment_data=comments)
+        return render_template('detail.html', post=post, comment_data=comments, logging=logging())
 
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/edit', methods=['GET','POST'])
 def edit_comment(post_id, comment_id):
@@ -306,7 +306,7 @@ def edit_comment(post_id, comment_id):
             db_connection.close()
             return redirect(url_for('view_detail', post_id=post_id))
     db_connection.close()
-    return render_template('detail.html', post=post, comments=comments, comment_text=comment_text)
+    return render_template('detail.html', post=post, comments=comments, comment_text=comment_text, logging=logging())
 
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/delete')
 def delete_comment(post_id, comment_id):
@@ -402,10 +402,10 @@ def profile(user):
         this_is_me=False
         if user_id==user:
             this_is_me=True
-        return render_template('profile.html', user=user_pro, following=following, this_is_me=this_is_me)
+        return render_template('profile.html', user=user_pro, following=following, this_is_me=this_is_me, logging=logging())
     else:
         user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
-        return render_template('profile.html', user=user_pro)
+        return render_template('profile.html', user=user_pro, logging=logging())
 
 
 @app.route('/profile/<int:f_user_id>/follow', methods=['POST'])
@@ -471,7 +471,7 @@ def my_profile():
             my_post_data.append(post)
 
         db_connection.close()
-        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number, my_posts=my_post_data)
+        return render_template('my_profile.html',my_profile=my_pro, post_number=post_number, follower_number=follower_number, following_number=following_number, my_posts=my_post_data, logging=logging())
     else:
         return render_template('login.html')
     # return render_template('my_profile.html',my_profile=my_pro)
@@ -503,7 +503,7 @@ def my_profile_edit():
         return redirect((url_for('my_profile')))
 
     db_connection.close()
-    return render_template('my_profile_edit.html', pro_img_old=pro_img_old, pro_msg_text=pro_msg_text, my_profile=my_pro)
+    return render_template('my_profile_edit.html', pro_img_old=pro_img_old, pro_msg_text=pro_msg_text, my_profile=my_pro, logging=logging())
 
 
 

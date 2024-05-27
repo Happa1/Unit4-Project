@@ -1,4 +1,26 @@
 #img{
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
+}
+
+.box_container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.box_container{
+  margin-left: 5rem;
+}
+
+select{
+  height: 60px;
+  /*appearance: none;*/
+  width: 25rem;
+  font-size: 1em;
+  padding: 0.3em 0.3em 0.3em 0.3em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
 }

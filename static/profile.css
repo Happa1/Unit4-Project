@@ -52,3 +52,42 @@ td{
     width: 100px;
   font-size: 20px;
 }
+
+.follow_btn{
+    font-size: 20px;
+    width: 180px;
+    padding: 5px;
+    margin: auto 0px;
+}
+
+#unfollow{
+    border-bottom: 5px solid #FF4C90;
+    border-radius: 100vh;
+    border-color: #FF4C90;
+    color: #3E3036 ;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #FFC1EB;
+}
+
+#follow:hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #FF4C90;
+}
+
+.fa{
+    padding-right: 5px;
+}
+
+
+#follow{
+    border-bottom: 5px solid #FFA2E1;
+    border-color: #FFA2E1 ;
+    border-radius: 100vh;
+    background-color: #ffffff;
+}
+
+#follow:hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #FFA2E1;
+}

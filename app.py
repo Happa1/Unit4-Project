@@ -395,20 +395,33 @@ def like(post_id):
 def profile(user):
     db_connection = DatabaseWorker("project4")
     this_is_me = False
+    user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
+    post_number = db_connection.search(query=f"SELECT COUNT(*) FROM posts where user_id={user}", multiple=False)[0]
+    follower_number = \
+    db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE following_user_id={user}", multiple=False)[0]
+    following_number = \
+    db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE user_id={user}", multiple=False)[0]
+    user_posts = db_connection.search(query=f"SELECT * FROM posts WHERE user_id={user}", multiple=True)
+
+    user_post_data = []
+    for post in user_posts:
+        post_id = post[0]
+        post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+        post = list(post)  # make post as a list
+        post.append(post_user_name[0])
+        user_post_data.append(post)
+
     if logging():
-        user_id=session['user_id']
-        user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
+        user_id = session['user_id']
         f_user_with = db_connection.search(
             query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={user}", multiple=False)
         print(f_user_with)
         following = f_user_with is not None
         if user_id==user:
             this_is_me=True
-        return render_template('profile.html', user=user_pro, following=following, this_is_me=this_is_me, logging=logging())
+        return render_template('profile.html', user=user_pro, following=following, this_is_me=this_is_me, logging=logging(), post_number=post_number, follower_number=follower_number, following_number=following_number, user_posts=user_post_data)
     else:
-        user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
-        print(user_pro[5])
-        return render_template('profile.html', user=user_pro, logging=logging(), this_is_me=this_is_me)
+        return render_template('profile.html', user=user_pro, this_is_me=this_is_me, logging=logging(), post_number=post_number, follower_number=follower_number, following_number=following_number, user_posts=user_post_data)
 
 
 @app.route('/profile/<int:f_user_id>/follow', methods=['POST'])

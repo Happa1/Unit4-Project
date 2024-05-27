@@ -6,6 +6,7 @@
     <script src="https://kit.fontawesome.com/b6f31539a5.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/topic.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
@@ -89,20 +90,20 @@
 
 </div>
     <div class="main">
-        <div class="posts">
-<h1>topic</h1>
+    <div class="top_box">
         <h2>{{ topic_name }}</h2>
+        <h3>{{ follower_number }}<br> following</h3>
 
         <form action="{{ url_for('topic_follow', topic_id=topic_id) }}" method="post">
             {% if following %}
-                <button type="submit">UNFOLLOW</button>
-                <p>following</p>
+                <button type="submit" class="follow_btn" id="unfollow"><i class="fa-solid fa-square-minus"></i> UNFOLLOW</button>
             {% else %}
-                <button type="submit">FOLLOW</button>
-                <p>not following</p>
+                <button type="submit" class="follow_btn" id="follow"><i class="fa-solid fa-square-plus"></i> FOLLOW</button>
             {% endif %}
         </form>
+    </div>
 
+        <div class="posts">
     <form method="post" class="form_post_container">
         {% for p in posts%}
         <div class="post_container">

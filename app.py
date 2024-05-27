@@ -156,7 +156,9 @@ def topic(topic_id):
     }
 
     topic_name=topic_dict[topic_id]
-
+    follower_number = \
+    db_connection.search(query=f"SELECT COUNT(*) FROM topic_follows WHERE following_topic='{topic_id}'",
+                         multiple=False)[0]
     posts =db_connection.search(query=f"SELECT * FROM posts WHERE subject='{topic_id}'", multiple=True)
     post_data = []
     following=False
@@ -193,7 +195,7 @@ def topic(topic_id):
 
     print(f"following {following}")
     return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name,
-                               topic_id=topic_id, following=following)
+                               topic_id=topic_id, following=following, follower_number=follower_number)
 
     # db_connection.close()
     # return render_template('topic.html', posts=post_data, logging=logging(), topic_name=topic_name, topic_id=topic_id, following=following)
@@ -340,7 +342,7 @@ def post():
             db_connection.close()
             return redirect(url_for('main'))
         db_connection.close()
-        return render_template('post.html')
+        return render_template('post.html', logging=logging())
     else:
         return redirect(url_for('login'))
 

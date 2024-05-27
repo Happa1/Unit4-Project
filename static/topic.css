@@ -1,0 +1,63 @@
+.top_box{
+    display: flex;
+    width: 80%;
+    text-align: left;
+    padding-top: 50px;
+}
+
+.main h2{
+    margin: auto;
+    font-size: 50px;
+}
+
+.main h3{
+    /*width: 150px;*/
+    text-align: center;
+}
+
+form{
+    margin-top: 50px;
+    margin: auto;
+    /*margin-right: 100px;*/
+    /*float: left;*/
+}
+
+.follow_btn{
+    font-size: 20px;
+    width: 180px;
+    padding: 5px;
+    margin: auto 0px;
+}
+
+
+#unfollow{
+    border-bottom: 5px solid #FF4C90;
+    border-radius: 100vh;
+    border-color: #FF4C90;
+    color: #3E3036 ;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #FFC1EB;
+}
+
+#follow:hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #FF4C90;
+}
+
+.fa{
+    padding-right: 5px;
+}
+
+
+#follow{
+    border-bottom: 5px solid #FFA2E1;
+    border-color: #FFA2E1 ;
+    border-radius: 100vh;
+    background-color: #ffffff;
+}
+
+#follow:hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #FFA2E1;
+}

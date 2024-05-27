@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/my_profile_edit.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -90,26 +91,28 @@
 </div>
 
     <div class="main">
+        <h1>Edit Profile</h1>
         <div class="profile_info_container">
-    <form method="post" enctype="multipart/form-data">
-        <div class="profile_info">
-        <img id="img" accept="image/*" src="/static/profile_image/{{ my_profile[5] }}">
+            <form method="post" enctype="multipart/form-data">
+                <div class="profile_info">
+                <img id="img" accept="image/*" src="/static/profile_image/{{ my_profile[5] }}">
 
-        <div class="buttons">
-          <!-- フォーム -->
-          <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
-          <!-- 画像削除ボタン -->
-          <button type="button" id="delete">reset</button>
-        </div>
+                <div class="buttons">
+                  <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
+                  <button type="button" id="delete">reset</button>
+                </div>
 
+                <label for="pro_msg_text">
+                    profile message
+{#                    <textarea name="pro_msg_text" value="{{pro_msg_text}}" rows="5" cols="30"></textarea>#}
+                    <input type="text" name="pro_msg_text" value="{{pro_msg_text}}">
+                </label>
+                <div class="btn_box">
+                    <button type="submit">Change</button>
+                </div>
 
-        <label for="pro_msg_text">
-            profile message
-            <input type="text" name="pro_msg_text" value="{{pro_msg_text}}">
-        </label>
-        <button type="submit">Change</button>
-      </div>
-    </form>
+              </div>
+            </form>
 
     </div>
     </div>

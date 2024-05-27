@@ -1,0 +1,52 @@
+.profile_info_container{
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.profile_info{
+  gap: 20px;
+  text-align: center;
+  width: 700px;
+  margin: auto;
+}
+
+.profile_info img {
+  border: 5px solid #9a4325;
+  border-radius: 100%;
+  height: 200px;
+  margin: 10px;
+  object-fit: cover;
+  width: 200px;
+}
+
+.profile_info_container button{
+  background-color: white;
+  border-color: #FF4C90;
+  border-radius: 5px;
+  color: #333333;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+  margin: 10px;
+}
+
+#delete{
+    background-color: #ffcb71;
+    padding: 5px;
+    border-color: #f5b460;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 50px;
+  height: 30px;
+}
+
+.profile_info_container button:hover{
+  color: white;
+  background-color: #FF4C90;
+}
+
+.btn_box{
+  text-align: center;
+}
+

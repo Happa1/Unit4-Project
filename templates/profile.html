@@ -89,22 +89,21 @@
 
 </div>
     <div class="main">
-        <h3>name <br>{{ user[1] }}</h3>
-
-{% if this_is_me==False%}
-     {% if following %}
-        <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
-            <button type="submit">UNFOLLOW</button>
-        </form>
-    {% else %}
-        <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
-            <button type="submit">FOLLOW</button>
-        </form>
-     {% endif %}
-{% elif this_is_me==True %}
-    <button><a href="{{ url_for('my_profile') }}">See my profile</a></button>
-{% endif %}
-    </div>
+        <h3>username: <br>{{ user[1] }}</h3>
+            {% if this_is_me==False%}
+                 {% if following %}
+                    <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+                        <button type="submit">UNFOLLOW</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+                        <button type="submit">FOLLOW</button>
+                    </form>
+                 {% endif %}
+            {% elif this_is_me==True %}
+                <button><a href="{{ url_for('my_profile') }}">See my profile</a></button>
+            {% endif %}
+                </div>
 </article>
 <script src="/static/main.js"></script>
 

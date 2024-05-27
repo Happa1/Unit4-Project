@@ -391,9 +391,10 @@ def like(post_id):
         db_connection.close()
         return redirect(url_for('main'))
 
-@app.route('/profile/<int:user>') #user is the user id of the one that you want to see
+@app.route('/profile/<int:user>', methods=['GET','POST']) #user is the user id of the one that you want to see
 def profile(user):
     db_connection = DatabaseWorker("project4")
+    this_is_me = False
     if logging():
         user_id=session['user_id']
         user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
@@ -401,13 +402,13 @@ def profile(user):
             query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={user}", multiple=False)
         print(f_user_with)
         following = f_user_with is not None
-        this_is_me=False
         if user_id==user:
             this_is_me=True
         return render_template('profile.html', user=user_pro, following=following, this_is_me=this_is_me, logging=logging())
     else:
         user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
-        return render_template('profile.html', user=user_pro, logging=logging())
+        print(user_pro[5])
+        return render_template('profile.html', user=user_pro, logging=logging(), this_is_me=this_is_me)
 
 
 @app.route('/profile/<int:f_user_id>/follow', methods=['POST'])

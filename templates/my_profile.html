@@ -90,12 +90,14 @@
 
 </div>
     <div class="main" >
-            <h3>Profile</h3>
+    <h1>Profile</h1>
     <div class="profile_info_container">
       <div class="profile_info">
         <img src="{{ 'static/profile_image/' + my_profile[5] }}">
-        <h2>{{ my_profile[1] }}</h2>
-        <h4>{{ my_profile[4] }}</h4>
+          <div class="profile_info_para">
+              <h2>{{ my_profile[1] }}</h2>
+              <h4>{{ my_profile[4] }}</h4>
+          </div>
       </div>
       <div class="profile_table">
           <table>
@@ -109,13 +111,9 @@
                   <td><i class="fa-solid fa-user"></i> {{ follower_number }}</td>
                   <td><i class="fa-solid fa-user-plus"></i> {{ following_number }}</td>
               </tr>
-
           </table>
-      </div>
-    <button><a href="{{ url_for('my_profile_edit') }}">Edit Profile</a></button>
-
-{#        <a href="" class="btn">Follow</a>#}
-
+        </div>
+        <button><a href="{{ url_for('my_profile_edit') }}">Edit Profile</a></button>
     </div>
 
     <div class="my_posts">

@@ -93,16 +93,18 @@
     <form method="post" enctype="multipart/form-data">
         <div class="box_container">
             <div class="question_box">
-                <p>Entre your question.</p>
             <label for="post_text">
-                <textarea name="post_text" value="{{ question }}" rows="5" cols="20"></textarea>
+                <textarea name="post_text" value="{{ question }}" rows="10" cols="50" placeholder="Enter your question."></textarea>
             </label>
         </div>
         <div class="image_box">
             <img id="img" accept="image/*" src="/static/image/upload_img.jpeg">
             <div class="buttons">
-              <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
+                <label for="file">
+                  <input type="file" name="file" id="form" accept=".jpg, .jpeg, .png, .gif">
+                </label>
               <button type="button" id="delete">reset</button>
+
             </div>
         </div>
         </div>
@@ -169,7 +171,9 @@
 
     </div>
 
-        <button class="btn btn-danger" type="submit">Submit</button>
+    <div class="button_box">
+        <button class="submit_btn" type="submit">Submit</button>
+    </div>
     </form>
 </div>
 

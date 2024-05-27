@@ -6,11 +6,18 @@
 .box_container{
   display: flex;
   justify-content: space-between;
+  width: 90%;
 }
 
-.box_container{
-  margin-left: 5rem;
+.image_box button{
+    background-color: #60E3F5;
+    padding: 5px;
+    border-color: #60a1f5;
+    border-radius: 5px;
+    font-size: 15px;
+
 }
+
 
 select{
   height: 60px;
@@ -23,4 +30,28 @@ select{
   border-radius: 0.25rem;
   color: #000;
   cursor: pointer;
+  margin: 40px 20px;
+}
+
+.submit_btn{
+    font-size: 20px;
+    border-bottom: 5px solid #FF4C90;
+    height: 50px;
+    width: 150px;
+    border-radius: 100vh;
+    border-color: #FF4C90;
+    color: #3E3036 ;
+    display: table-cell;
+    vertical-align: middle;
+    background-image: linear-gradient(90deg, rgba(247, 93, 139, 1), rgba(254, 125, 79, 1));
+    /*background-color: #FFC1EB;*/
+}
+
+.submit_btn:hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #FF4C90;
+}
+
+.button_box{
+    text-align: center;
 }

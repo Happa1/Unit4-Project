@@ -149,9 +149,10 @@ def topic(topic_id):
         'Co': 'Computer Science',
         'MA': 'Math AA',
         'MI': 'Math IA',
-        'Bi': 'Visual Art',
-        'Ph': 'Film',
-        'Ch': 'Theatre'
+        'Vi': 'Visual Art',
+        'Fi': 'Film',
+        'Th': 'Theatre'
+
     }
 
     topic_name=topic_dict[topic_id]

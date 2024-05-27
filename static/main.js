@@ -5,6 +5,7 @@ function mediaQueriesWin(){
     $(".has-child>a").off('click'); //has-childクラスがついたaタグのonイベントを複数登録を避ける為offにして一旦初期状態へ
     $(".has-child>a").on('click', function() {//has-childクラスがついたaタグをクリックしたら
       var parentElem =  $(this).parent();// aタグから見た親要素の<li>を取得し
+      $(parentElem).siblings().removeClass('active').children('ul').slideUp(500);
       $(parentElem).toggleClass('active');//矢印方向を変えるためのクラス名を付与して
       $(parentElem).children('ul').stop().slideToggle(500);//liの子要素のスライドを開閉させる※数字が大きくなるほどゆっくり開く
       return false;//リンクの無効化

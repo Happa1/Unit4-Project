@@ -13,7 +13,7 @@
 <body>
 <header>
     <div class="header_container">
-        <h1>Welcome to IB reddit!</h1>
+        <h1><a href="{{ url_for('main') }}">Welcome to IB reddit!</a> </h1>
         <div class="header_btn_container">
             <button class="header_btn"><a href="{{ url_for('post') }}">Post</a></button>
 
@@ -32,16 +32,16 @@
 
 <article>
 <div class="side">
-    <h2>Subjects</h2>
+    <h2>Topics</h2>
     <nav>
         <ul class="accordion-menu">
-      <li class="has-child"><a href="#">Group 1</a>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-language"></i> Group 1</a>
         <ul class="submenuItems">
           <li><a href="{{ url_for('topic', topic_id='EA') }}">English A</a></li>
           <li><a href="{{ url_for('topic', topic_id='JA') }}">Japanese A</a></li>
         </ul>
       </li>
-      <li class="has-child"><a href="#">Group 2</a>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-globe"></i> Group 2</a>
         <ul class="submenuItems">
           <li><a href="{{ url_for('topic', topic_id='EB') }}">English B</a></li>
           <li><a href="{{ url_for('topic', topic_id='JB') }}">Japanese B</a></li>
@@ -49,7 +49,7 @@
           <li><a href="{{ url_for('topic', topic_id='Sab') }}">Spanish ab initio</a></li>
         </ul>
       </li>
-      <li class="has-child"><a href="#">Group 3</a>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-landmark"></i> Group 3</a>
         <ul class="submenuItems">
           <li><a href="{{ url_for('topic', topic_id='Ec') }}">Economics</a></li>
           <li><a href="{{ url_for('topic', topic_id='Gp') }}">Global Politics</a></li>
@@ -57,7 +57,7 @@
           <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
         </ul>
       </li>
-      <li class="has-child"><a href="#">Group 4</a>
+      <li class="has-child"><a href="#"><i class="fa-solid fa-flask"></i> Group 4</a>
         <ul class="submenuItems">
           <li><a href="{{ url_for('topic', topic_id='Bi') }}">Biology</a></li>
           <li><a href="{{ url_for('topic', topic_id='Ph') }}">Physics</a></li>
@@ -66,8 +66,23 @@
           <li><a href="{{ url_for('topic', topic_id='Es') }}">ESS</a></li>
         </ul>
       </li>
+
+      <li class="has-child"><a href="#"><i class="fa-solid fa-calculator"></i> Group 5</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='MA') }}">Math AA</a></li>
+          <li><a href="{{ url_for('topic', topic_id='MI') }}">Math AI</a></li>
+        </ul>
+      </li>
+
+      <li class="has-child"><a href="#"><i class="fa-solid fa-palette"></i> Group 6</a>
+        <ul class="submenuItems">
+          <li><a href="{{ url_for('topic', topic_id='Vi') }}">Visual Art</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Fi') }}">Film</a></li>
+          <li><a href="{{ url_for('topic', topic_id='Th') }}">Theatre</a></li>
+        </ul>
+      </li>
             {% if logging %}
-            <li><a href="{{ url_for('favorite') }}">Favorite</a> </li>
+            <li><a href="{{ url_for('favorite') }}"><i class="fa-solid fa-heart"></i> Favorite</a> </li>
             {% endif %}
     </ul>
 
@@ -84,8 +99,7 @@
         {% for p in posts%}
         <div class="post_container">
             <div class="top_container">
-                <p><a href="{{ url_for('profile', user=p[3])}}">{{ p[8] }}</a></p>
-
+                <p><a id="username" href="{{ url_for('profile', user=p[3])}}">{{ p[8] }}</a></p>
                 <p>{{ p[1] }}</p>
             </div>
 
@@ -98,7 +112,7 @@
             {% endif %}
 
             <div class="bottom_container">
-                <button><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-clipboard"></i>VIEW POST</a></button>
+                <button id="view_btn"><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-clipboard"></i>VIEW POST</a></button>
                 {% if p[10] == True %}
                     <button name="like_btn" class="like_btn"><a href="{{ url_for('like', post_id=p[0]) }}">
                         <i class="fa fa-heart" style="font-size:20px;color:#ED4987"></i>{{ p[7] }}</a></button>
@@ -106,7 +120,7 @@
                     <button name="not_like_btn" class="like_btn" style="background-color: white "><a href="{{ url_for('like', post_id=p[0]) }}">
                         <i class="fa fa-heart" style="font-size:20px;color:#837379;"></i>{{ p[7] }}</a></button>
                 {% endif %}
-                <button class="comment_btn"><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-comment"></i>Comment {{ p[9] }}</a></button>
+                <button class="comment_btn"><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-comment" style="color: #9CDFF5"></i> Comment {{ p[9] }}</a></button>
             </div>
 
         </div>

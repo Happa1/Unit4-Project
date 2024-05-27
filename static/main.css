@@ -6,7 +6,7 @@ html{
 }
 
 header{
-    background-color: #ff96c1;
+    background-image: linear-gradient(90deg, rgba(247, 93, 139, 1), rgba(254, 125, 79, 1));
     position: fixed; /* ウィンドウを基準に画面に固定 */
     width: 100%;
     align-items: center;
@@ -30,18 +30,28 @@ header{
 
 .header_btn{
     height: 40px;
-    min-width: 70px;
+    min-width: 80px;
     margin: 5px 10px;
-    font-size: 15px;
+    font-size: 17px;
+    color: #333333;
+    background-color: #ffffff;
+    border-radius: 5px;
+    display: table-cell;
+    vertical-align: middle;
+    border: 2px solid #FFA743;
+
 }
 
-
+.header_btn:hover{
+    color: #ffffff;
+    background-color: #FFA743;
+}
 
 body {
   height: 100%;
   width: 100%;
   margin: 0;
-  background-color: #f6f5f7;
+  background-color: #FEFFD7 ;
     padding-top: 90px;
 }
 
@@ -58,13 +68,19 @@ a{
 
 .side{
     height: 100%;
-    width: 30%;
-    background-color: beige;
+    width: 25%;
+    background-color: #ffdda9;
+    position: fixed;
+}
+
+.side h2{
+    padding-left: 40px;
 }
 
 .main{
     padding: 0px 20px;
-    width: 100%;
+    padding-left: 25%;
+    width: 70%;
     height: 100%;
 }
 
@@ -98,6 +114,10 @@ a{
     justify-content: space-between;
 }
 
+#username:hover{
+    color: #E8975A;
+}
+
 .post_text{
     font-size: 30px;
 }
@@ -120,16 +140,34 @@ a{
     padding: 10px 0;
 }
 
+#view_btn{
+    font-size: 15px;
+    border-bottom: 5px solid #fbbe66;
+    width: 120px;
+    border-radius: 100vh;
+    border-color: #fbbe66;
+    color: #3E3036 ;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #FFFFFF;
+}
+
+#view_btn:hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #fbbe66;
+}
+
 /*like*/
 .like_btn{
     font-size: 20px;
     border-bottom: 5px solid #FF4C90;
-    width: 100px;
+    width: 70px;
     border-radius: 100vh;
     border-color: #FF4C90;
     color: #3E3036 ;
     display: table-cell;
     vertical-align: middle;
+    background-color: #FFC1EB;
 }
 
 .like_btn:hover{
@@ -145,15 +183,15 @@ a{
 .not_like_btn{
     font-size: 25px;
     /*border-bottom: 5px solid ＃#db7093;*/
-    width: 100px;
+    width: 70px;
     border-radius: 100vh;
-    border-color: #ff8db8;
+    border-color: #FFA2E1 ;
     background-color: #ffffff;
 }
 
 .not_like_btn:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #ff96c1;
+    border-bottom: 2px solid #FFA2E1;
 }
 
 a{
@@ -162,18 +200,19 @@ a{
 
 .comment_btn{
     font-size: 20px;
-    border-bottom: 5px solid #FF4C90;
+    border-bottom: 5px solid #60E3F5 ;
     width: 150px;
     border-radius: 100vh;
-    border-color: #FF4C90;
+    border-color: #60E3F5 ;
     color: #3E3036 ;
     display: table-cell;
     vertical-align: middle;
+    background-color: #fff;
 }
 
 .comment_btn:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #FF4C90;
+    border-bottom: 2px solid #60E3F5 ;
 }
 
 
@@ -183,8 +222,9 @@ a{
 nav ul{
   list-style: none;
   text-align: center;
+    background-color: #F5D07B ;
+    font-size: 20px;
 }
-
 
 /*下の階層のulや矢印の基点にするためliにrelativeを指定*/
 nav ul li{
@@ -195,7 +235,7 @@ nav ul li{
 nav ul li a{
   display: block;
   text-decoration: none;
-  color: #000;
+  color: #F5D07B;
   padding:15px;
   transition:all .3s;
 }
@@ -219,21 +259,6 @@ nav ul li.has-child::before{
     transform: rotate(45deg);
 }
 
-/*3階層目を持つliの矢印の設定*/
-nav ul ul li.has-child::before{
-  content:'';
-  position: absolute;
-  left:15px;
-  top:21px;
-  width:6px;
-  height:6px;
-    border-top: 2px solid #fff;
-    border-right:2px solid #fff;
-    transform: rotate(45deg);
-}
-
-/*== 2・3階層目の共通設定 */
-
 /*下の階層を持っているulの指定*/
 nav li.has-child ul{
     /*絶対配置で位置を指定*/
@@ -242,7 +267,7 @@ nav li.has-child ul{
   top:10px;
   z-index: 4;
     /*形状を指定*/
-  background:#28BFE7;
+  background:#FFAD71 ;
   width:180px;
     /*はじめは非表示*/
   visibility: hidden;
@@ -272,21 +297,7 @@ nav li.has-child ul li:last-child > a{
 
 nav li.has-child ul li a:hover,
 nav li.has-child ul li a:active{
-  background:#3577CA;
-}
-
-/*==3階層目*/
-
-/*3階層目の位置*/
-nav li.has-child ul ul{
-  top:0;
-  left:182px;
-  background:#66ADF5;
-}
-
-nav li.has-child ul ul li a:hover,
-nav li.has-child ul ul li a:active{
-  background:#448ED3;
+  background:#E8975A;
 }
 
 /*==768px以下の形状*/
@@ -307,11 +318,12 @@ nav li.has-child ul ul li a:active{
       opacity:1;/*JSで制御するため一旦表示*/
       display: none;/*JSのslidetoggleで表示させるため非表示に*/
       transition:none;/*JSで制御するためCSSのアニメーションを切る*/
+      padding-left: 0;
 }
 
 nav ul li a{
   border-bottom:1px solid #ccc;
-  color: #fff;
+  color: #FF8A33;
 }
 
 /*矢印の向き*/

@@ -375,7 +375,6 @@ def main():
 @app.route('/main/<int:post_id>/like', methods=['GET','POST'])
 def like(post_id):
     db_connection = DatabaseWorker("project4")
-    print(f"logging: {logging()}")
     if not logging():
         db_connection.close()
         return redirect(url_for('login'))
@@ -487,15 +486,17 @@ def my_profile_edit():
     if request.method=='POST':
         new_pro_msg=request.form.get('pro_msg_text')
         new_pro_img=request.files.get('file')
-        print(f"file {new_pro_img}")
+
         if new_pro_img and new_pro_img.filename:  # ファイルが正しくアップロードされているか確認
             date = datetime.now().strftime('%Y%b%d')
             file_name = f"{date}_{new_pro_img.filename}"
             file_path = os.path.join('static/profile_image', file_name)
             new_pro_img.save(file_path)
+            new_pro_msg = request.form.get('pro_msg_text')
+            print(f"message {new_pro_msg}")
+            print(f"file {file_name}")
             db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
-            db_connection.run_query(f"UPDATE users set pro_img='{file_name}' where id={user_id}")
-
+            # db_connection.run_query(f"UPDATE users set pro_img='{file_name}' where id={user_id}")
         else:
             db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
         db_connection.close()

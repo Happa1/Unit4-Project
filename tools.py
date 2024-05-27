@@ -49,6 +49,5 @@ def logging():
     login=False
     user_id = session.get('user_id')  # get()メソッドを使って安全に取得
     if user_id:
-        print(f"user_id: {user_id}")
         login = True
     return login

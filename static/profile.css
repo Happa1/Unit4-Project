@@ -13,7 +13,7 @@
 }
 
 .profile_info img {
-  border: 5px solid #9a4325;
+  border: 5px solid #4d5b8e;
   border-radius: 100%;
   height: 200px;
   margin: 10px;
@@ -55,24 +55,24 @@ td{
 
 .follow_btn{
     font-size: 20px;
-    width: 180px;
+    width: 250px;
     padding: 5px;
     margin: auto 0px;
 }
 
 #unfollow{
-    border-bottom: 5px solid #FF4C90;
+    border-bottom: 5px solid #4d5b8e;
     border-radius: 100vh;
-    border-color: #FF4C90;
+    border-color: #4d5b8e;
     color: #3E3036 ;
     display: table-cell;
     vertical-align: middle;
-    background-color: #FFC1EB;
+    background-color: #d8d5d5;
 }
 
 #follow:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #FF4C90;
+    border-bottom: 2px solid #4d5b8e;
 }
 
 .fa{
@@ -81,15 +81,16 @@ td{
 
 
 #follow{
-    border-bottom: 5px solid #FFA2E1;
-    border-color: #FFA2E1 ;
+    border-bottom: 5px solid #4d5b8e;
+    border-color: #4d5b8e;
     border-radius: 100vh;
+    color: #3E3036 ;
     background-color: #ffffff;
 }
 
 #unfollow:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #FFA2E1;
+    border-bottom: 2px solid #4d5b8e;
 }
 
 .follow_post_container{
@@ -106,3 +107,19 @@ td{
 #view_btn{
     height: 35px;
 }
+
+/*.profile_info_container button{*/
+/*  background-color: white;*/
+/*  border-color: #4d5b8e;*/
+/*  border-radius: 5px;*/
+/*  color: #333333;*/
+/*  width: 150px;*/
+/*  height: 50px;*/
+/*  font-size: 20px;*/
+/*  margin: 10px;*/
+/*}*/
+
+/*.profile_info_container button:hover{*/
+/*  color: white;*/
+/*  background-color: #4d5b8e;*/
+/*}*/

@@ -102,32 +102,48 @@
             <p>{{ post[1] }}</p>
         </div>
     <p style="font-size: 30px">{{ post[2] }}</p>
+        <div class="hashtag">
+            <p>{{ group }}</p>
+            <p>{{ subject }}</p>
+        </div>
     </div>
-
     {% if post[4] is not none and post[4]|length != 0 %}
         <div class="right_box">
             <img class="image" src="{{ '/static/post_image/' + post[4] }}" alt="Image">
         </div>
     {% endif %}
+    </div>
 
-</div>
+
 
 <div class="comment_box">
     <h3>comments</h3>
     <div class="view_comment_box">
     {% if comments | length==0 %}
-        <p>There are no comments yet.</p>
+        <p style="text-align: center;">There are no comments yet.</p>
     {% endif %}
     {% for c in comment_data %}
-    	<div>
-            <div>{{ c[1] }}</div>{# date #}
-            <div>comment user: {{ c[3] }}</div>{# user_id #}
-            <div>{{ c[4] }}</div>{# comment #}
-            {% if c[5]==True %}
-            	<a href="{{ url_for('edit_comment', comment_id=c[0], post_id=c[2])}}">Edit</a>
-                <a href="{{ url_for('delete_comment', comment_id=c[0], post_id=c[2])}}"
-                onclick="return confirm('Are you sure want to delete?')">DELETE</a>
-            {% endif %}
+
+        {% if c[6]==True %}
+            <div class="comment">
+            <div class="comment_top">
+                <p style=""><a id="username" href="{{ url_for('profile', user=c[3])}}">{{ c[5] }}</a></p>
+                <div>{{ c[1] }}</div>{# date #}
+                    <a href="{{ url_for('edit_comment', comment_id=c[0], post_id=c[2])}}"><i class="fa-solid fa-pencil"></i></a>
+                    <a href="{{ url_for('delete_comment', comment_id=c[0], post_id=c[2])}}"
+                onclick="return confirm('Are you sure want to delete?')"><i class="fa-solid fa-trash-can"></i></a>
+            </div>
+            <div style="margin-top: 3px; font-size: 18px" >{{ c[4] }}</div>{# comment #}
+
+        {% else %}
+            <div class="comment">
+            <div class="comment_top">
+                <p style=""><a id="username" href="{{ url_for('profile', user=c[3])}}">{{ c[5] }}</a></p>
+                <div>{{ c[1] }}</div>{# date #}
+            </div>
+            <div style="margin-top: 3px; font-size: 18px" >{{ c[4] }}</div>{# comment #}
+
+        {% endif %}
 
         </div>
     {% endfor %}
@@ -135,13 +151,14 @@
 
 
     <div class="write_comment_box">
-        <h3>Write new comments</h3>
+{#        <h3>Write new comments</h3>#}
          <form method="post">
             <label for="comment_text">
-                Enter your comment
-                <input type="text" name="comment_text" value="{{comment_text}}">
+{#                Enter your comment#}
+{#                <input type="text" name="comment_text" value="{{comment_text}}">#}
+                <textarea name="comment_text" placeholder="Enter comment" rows="5" cols="50">{{ comment_text }}</textarea>
             </label>
-             <button type="submit">Comment</button>
+             <button class="submit_btn" type="submit"><i class="fa-solid fa-paper-plane" style="font-size: 20px;"></i></button>
         </form>
     </div>
 

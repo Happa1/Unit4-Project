@@ -11,9 +11,13 @@ class DatabaseWorker:
         self.connection =  sqlite3.connect(self.name_db)
         self.cursor = self.connection.cursor()
 
-    def run_query(self, query:str):
-        self.cursor.execute(query) # run query
-        self.connection.commit() # save changes
+    # def run_query(self, query:str):
+    #     self.cursor.execute(query) # run query
+    #     self.connection.commit() # save changes
+
+    def run_query(self, query: str, params: tuple = ()):
+        self.cursor.execute(query, params)
+        self.connection.commit()
 
     def insert(self, query:str):
         self.run_query(query)

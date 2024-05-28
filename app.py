@@ -258,12 +258,50 @@ def logout():
 @app.route('/main/<int:post_id>', methods=['GET','POST'])
 def view_detail(post_id):
     db_connection = DatabaseWorker("project4")
+    topic_dict={
+        'G1': '1: Studies in Language and Literature',
+        'G2': '2: Language Acquisition',
+        'G3': '3: Individuals and Societies',
+        'G4': '4: Experimental Sciences',
+        'G5': '5: Mathematics',
+        'G6': '6: The Arts',
+        'TOK': 'TOK',
+        'CAS': 'CAS',
+        'EE': 'EE',
+        'EA': 'English A',
+        'JA': 'Japanese A',
+        'EB': 'English B',
+        'JB': 'Japanese B',
+        'Jab': 'Japanese ab initio',
+        'Cab': 'Chinese ab initio',
+        'Sab': 'Spanish ab initio',
+        'Ec': 'Economics',
+        'Gp': 'Global Politics',
+        'Hi': 'History',
+        'Es': 'ESS',
+        'Bi': 'Biology',
+        'Ph': 'Physics',
+        'Ch': 'Chemistry',
+        'Co': 'Computer Science',
+        'MA': 'Math AA',
+        'MI': 'Math IA',
+        'Vi': 'Visual Art',
+        'Fi': 'Film',
+        'Th': 'Theatre'
+
+    }
+
     post = db_connection.search(query=f"SELECT * FROM posts where id = {post_id}", multiple=False)
     post = list(post)
     post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
     like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
     comment_number = \
     db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+    # group_name=topic_dict[post[5]]
+    group_name = topic_dict.get(post[5], "Unknown Group")
+    print(post[6])
+    print(group_name)
+    subject_name = topic_dict.get(post[6], "Unknown Subject")
     post.append(like_number)  # add number of likes to a list of post
     post.append(post_user_name[0])
     post.append(comment_number)
@@ -301,7 +339,7 @@ def view_detail(post_id):
             db_connection.insert(query=query)
             db_connection.close()
             return redirect(url_for('view_detail',post_id=post_id))
-        return render_template('detail.html', post=post, comment_data=comment_data, logging=logging())
+        return render_template('detail.html', post=post, comment_data=comment_data, logging=logging(), comments=comments, group=group_name, subject=subject_name)
     else:
         for comment in comments:
             commenter_id = comment[3]
@@ -313,11 +351,14 @@ def view_detail(post_id):
             comment=list(comment)
             comment.append(comment_user_name[0])
             comment_data.append((comment))
-            # if comment_user_name is not None:
+            if request.method == 'POST':
+                return redirect(url_for('login'))
+
+        # if comment_user_name is not None:
             #     print(comment_user_name[0])
         # comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
         db_connection.close()
-        return render_template('detail.html', post=post, comment_data=comment_data, logging=logging())
+        return render_template('detail.html', post=post, comment_data=comment_data, logging=logging(), comments=comments, group=group_name, subject=subject_name)
 
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/edit', methods=['GET','POST'])
 def edit_comment(post_id, comment_id):
@@ -362,10 +403,13 @@ def post():
             file.save(file_path)
             genre=request.form.get('genre')
             subject=request.form.get('subject')
-            query=f"""
-            INSERT INTO posts(date, post_text,user_id, photo, genre, subject) values ('{date}', '{text}','{user_id}', '{file_name}', '{genre}','{subject}')"""
-
-            db_connection.insert(query=query)
+            print(subject)
+            query = """
+            INSERT INTO posts (date, post_text, user_id, photo, genre, subject) 
+            VALUES (?, ?, ?, ?, ?, ?)
+            """
+            values = (date, text, user_id, file_name, genre, subject)
+            db_connection.run_query(query=query, params=values)
             db_connection.close()
             return redirect(url_for('main'))
         db_connection.close()

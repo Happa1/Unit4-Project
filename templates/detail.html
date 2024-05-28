@@ -94,7 +94,8 @@
 
 <div class="main">
 
-<div class="post_box">
+<div class="main_box">
+    <div class="post_box">
     <div class="left_box">
         <div class="top_box">
             <p><a id="username" href="{{ url_for('profile', user=post[3])}}">{{ post[8] }}</a></p>
@@ -112,8 +113,8 @@
 </div>
 
 <div class="comment_box">
+    <h3>comments</h3>
     <div class="view_comment_box">
-            <h3>comments</h3>
     {% if comments | length==0 %}
         <p>There are no comments yet.</p>
     {% endif %}
@@ -145,6 +146,10 @@
     </div>
 
 </div>
+
+</div>
+
+
 </div>
 
 </article>

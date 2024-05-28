@@ -267,18 +267,26 @@ def view_detail(post_id):
     post.append(like_number)  # add number of likes to a list of post
     post.append(post_user_name[0])
     post.append(comment_number)
+    comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
+
+    comment_data = []
 
     if logging():
         user_id = session['user_id']
-        print(f"user_id {user_id}")
-        comments=db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
-        comment_data=[]
         for comment in comments:
             commenter_id=comment[3]
+            comment_user_name = db_connection.search(query=f"""
+            SELECT users.username 
+            FROM users 
+            JOIN posts 
+            ON posts.user_id =users.id WHERE posts.user_id = {post[3]}""", multiple=False)
+            print(comment_user_name[0])
+
             my_comment=False
             if commenter_id==user_id:
                 my_comment= True
             comment=list(comment)
+            comment.append(comment_user_name[0])
             comment.append(my_comment)
             comment_data.append((comment))
             print(comment)
@@ -287,7 +295,6 @@ def view_detail(post_id):
             date = datetime.now().strftime('%Y%b%d')
             comment = request.form.get('comment_text')
             user_id=user_id
-            # genre=request.form.get('genre')
             query = f"""
                 INSERT INTO comments (date, user_id, post_id, comment) 
                 values ('{date}', '{user_id}','{post_id}','{comment}')"""
@@ -296,9 +303,21 @@ def view_detail(post_id):
             return redirect(url_for('view_detail',post_id=post_id))
         return render_template('detail.html', post=post, comment_data=comment_data, logging=logging())
     else:
-        comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
+        for comment in comments:
+            commenter_id = comment[3]
+            comment_user_name = db_connection.search(query=f"""
+            SELECT users.username 
+            FROM users 
+            JOIN posts 
+            ON posts.user_id =users.id WHERE posts.user_id = {comment[3]}""", multiple=False)
+            comment=list(comment)
+            comment.append(comment_user_name[0])
+            comment_data.append((comment))
+            # if comment_user_name is not None:
+            #     print(comment_user_name[0])
+        # comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
         db_connection.close()
-        return render_template('detail.html', post=post, comment_data=comments, logging=logging())
+        return render_template('detail.html', post=post, comment_data=comment_data, logging=logging())
 
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/edit', methods=['GET','POST'])
 def edit_comment(post_id, comment_id):

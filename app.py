@@ -258,10 +258,19 @@ def logout():
 @app.route('/main/<int:post_id>', methods=['GET','POST'])
 def view_detail(post_id):
     db_connection = DatabaseWorker("project4")
+    post = db_connection.search(query=f"SELECT * FROM posts where id = {post_id}", multiple=False)
+    post = list(post)
+    post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+    like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+    comment_number = \
+    db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+    post.append(like_number)  # add number of likes to a list of post
+    post.append(post_user_name[0])
+    post.append(comment_number)
+
     if logging():
         user_id = session['user_id']
         print(f"user_id {user_id}")
-        post = db_connection.search(query=f"SELECT * FROM posts where id = {post_id}", multiple=False)
         comments=db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
         comment_data=[]
         for comment in comments:
@@ -287,7 +296,6 @@ def view_detail(post_id):
             return redirect(url_for('view_detail',post_id=post_id))
         return render_template('detail.html', post=post, comment_data=comment_data, logging=logging())
     else:
-        post = db_connection.search(query=f"SELECT * FROM posts where id = {post_id}", multiple=False)
         comments = db_connection.search(query=f"SELECT * FROM comments where post_id={post_id}", multiple=True)
         db_connection.close()
         return render_template('detail.html', post=post, comment_data=comments, logging=logging())

@@ -1,0 +1,38 @@
+.post_box{
+    display: flex;
+    justify-content: space-between;
+    height: 30%;
+    margin: 30px;
+}
+
+.top_box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.right_box img{
+    height: 250px;
+    width: 250px;
+}
+
+.comment_box{
+    text-align: center;
+    padding: 50px;
+}
+
+.view_comment_box{
+    overflow: scroll;
+    width: 90%;
+    text-align: left;
+    height: 200px;
+    margin-bottom: 15%;
+}
+
+.write_comment_box{
+    height: 15%;
+    width: 75%;
+    position: fixed;
+    left: 25%;
+    top: 85%;
+    background-color: #FF4C90;
+}

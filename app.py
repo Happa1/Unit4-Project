@@ -410,6 +410,7 @@ def profile(user):
         post = list(post)  # make post as a list
         post.append(post_user_name[0])
         user_post_data.append(post)
+    print(user_post_data)
 
     if logging():
         user_id = session['user_id']

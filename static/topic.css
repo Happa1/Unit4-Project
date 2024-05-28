@@ -57,7 +57,7 @@ form{
     background-color: #ffffff;
 }
 
-#follow:hover{
+#unfollow:hover{
     margin-top: 3px;
     border-bottom: 2px solid #FFA2E1;
 }

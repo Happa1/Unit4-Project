@@ -214,8 +214,106 @@ $('#delete').on('click', function (e) {
 })
 ```
 
+#### option menu
+I created the system to select the group of the subject and subject in which the user's post belongs.
+Each subject belongs to the specific group, so the website makes the user to select group first, then depending on the group the user choose, it shows dropdown menu of subject.
+To make this sub-select option menu, I used javascript and referred this website.[^4]
+
+```.py
+# post.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide all sub select boxes initially and remove their name attributes
+    var allSubBoxes = document.getElementsByClassName("sub_select");
+    for (var i = 0; i < allSubBoxes.length; i++) {
+        allSubBoxes[i].style.display = 'none';
+        allSubBoxes[i].removeAttribute('name'); // Ensure name attribute is removed
+    }
+
+    // Process each pulldown set
+    var mainBoxes = document.getElementsByClassName('pulldownset');
+    for (var i = 0; i < mainBoxes.length; i++) {
+        var mainSelect = mainBoxes[i].getElementsByClassName("main_select")[0]; // Get the main select element
+        if (mainSelect) { // Check if mainSelect is found
+            mainSelect.onchange = function () {
+                // Hide all sub select boxes within the same pulldown set and remove their name attributes
+                var subBoxes = this.parentNode.getElementsByClassName("sub_select");
+                for (var j = 0; j < subBoxes.length; j++) {
+                    subBoxes[j].style.display = 'none';
+                    subBoxes[j].removeAttribute('name'); // Remove name attribute
+                }
+                // Show the selected sub select box and set its name attribute
+                if (this.value) {
+                    var targetSub = document.getElementById(this.value);
+                    if (targetSub) { // Check if targetSub is found
+                        targetSub.style.display = 'inline';
+                        targetSub.setAttribute('name', 'subject'); // Set the name attribute
+                    }
+                }
+            }
+        }
+    }
+});
+```
+```.py
+    <div class="pulldownset">
+    <select name="genre" class="main_select" requierd>
+         <option value="">Select the group</option>
+        <option value="G1">1: Studies in Language and Literature)</option>
+        <option value="G2">2: Language Acquisition</option>
+        <option value="G3">3: Individuals and Societies</option>
+        <option value="G4">4: Experimental Sciences</option>
+        <option value="G5">5: Mathematics</option>
+        <option value="G6">6: The Arts</option>
+    </select>
+
+    <select id="G1" name="subject" class="sub_select" requierd>
+        <option value="">Select the subject</option>
+        <option value="EA">English A</option>
+        <option value="JA">Japanese A</option>
+    </select>
+
+    <select id="G2" name="subject" class="sub_select" requierd>
+    ......
+    </select>
+    
+    <select id="G3" name="subject" class="sub_select" requierd>
+    .......
+    </select>
+    
+    <select id="G4" name="subject" class="sub_select" requierd>
+    ......
+    </select>
+    
+```
+
+
 
 ### like system (Success Criteria 3)
+To meet the criteria, I created the like system which the logged-in users to like posts.
+
+```.py
+def like(post_id):
+    db_connection = DatabaseWorker("project4")
+    if not logging():
+        db_connection.close()
+        return redirect(url_for('login'))
+    if logging():
+        user_id = session['user_id']
+        user_like_with = db_connection.search(query=f"SELECT * from likes where post_id={post_id} and user_id={user_id}",multiple=False)
+        liked = user_like_with is not None  # True: if liked, False: if not liked
+        if liked:
+            db_connection.run_query(query=f"DELETE FROM likes WHERE post_id={post_id} and user_id={user_id}")
+        else:
+            db_connection.run_query(query=f"INSERT INTO likes (post_id, user_id) values ({post_id},{user_id})")
+        db_connection.close()
+        return redirect(url_for('main'))
+```
+When the user click a like button, the system checks the login state of a user.
+If the user hasn't logged in yet, the system redirect to login page.
+If the user has already logged in, then system obtains the 'user_id'.
+The system search the table 'like' to check whether the user has already liked the post or not.
+If user already like the post, then the system remove like when the like button clicked.
+If not, the system add like with 'post_id' and 'user_id'.
 
 
 
@@ -228,14 +326,15 @@ $('#delete').on('click', function (e) {
 ### sending emails (Success Criteria 7)
 
 ## CriteriaD
-I cite[^1]
+Please watch this vide.
+
 ## CriteriaE
 
 ## Citation
 [^1]: Majeed, Umer, et al. “Blockchain for IoT-Based Smart Cities: Recent Advances, Requirements, and Future Challenges.” Journal of Network and Computer Applications, vol. 181, 1 May 2021, pp. 103007–103007, www.sciencedirect.com/topics/computer-science/hash-function#:~:text=Hash%20functions%20are%20used%20for,the%20hash%20itself%20is%20signed., https://doi.org/10.1016/j.jnca.2021.103007. Accessed 29 May 2024.
 [^2]: EITCA Academy. “What Is the Purpose of Using Sessions in Web Development? - EITCA Academy.” EITCA Academy, 8 Aug. 2023, eitca.org/web-development/eitc-wd-pmsf-php-and-mysql-fundamentals/expertise-in-php/sessions/examination-review-sessions/what-is-the-purpose-of-using-sessions-in-web-development/#:~:text=To%20summarize%2C%20the%20purpose%20of,personalized%20and%20interactive%20web%20experiences. Accessed 29 May 2024.
 [^3]: mule. “フォームで画像選択時にプレビュー表示する【HTML・CSS・JQuery】.” Muleの技術ブログ, 25 June 2022, tool-engineer.work/article50/. Accessed 29 May 2024.
-
+[^4]:“【HTML】複数のプルダウンを連動させる方法とは？JavaScriptのコードも徹底解説 - WEBCAMP MEDIA.” WEBCAMP MEDIA, 15 Sept. 2021, web-camp.io/magazine/archives/85111. Accessed 29 May 2024.
 
 
 

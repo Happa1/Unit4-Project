@@ -17,8 +17,8 @@ def register():
         conf_password = request.form.get('psw_conf')
 ```
 
-By using the post method, I receive the values input by user by using the 'request' library with 'POST' method.
-I imported 're' and used 'match()' module to verify whether valid email or not.
+By using the post method, I receive the values input by user by using the `request` library with `POST` method.
+I imported `re` and used `match()` module to verify whether valid email or not.
 
 ```.py
        valid = True
@@ -47,8 +47,8 @@ I imported 're' and used 'match()' module to verify whether valid email or not.
             psw_cnf_err=True
             valid = False
 ```
-To validate the input values, I used boolean. Depending on the input, error become 'True' and valid will become 'False'.
-To prevent the duplication of username, I searched 'username' in the database of 'users' and I compared stored username with the input username by using for loop.
+To validate the input values, I used boolean. Depending on the input, error become `True` and valid will become `False`.
+To prevent the duplication of username, I searched `username` in the database of `users` and I compared stored username with the input username by using for loop.
 If the username has been used, then it returns error in username and set valid.
 In other cases, such as invalid form of email, less than 8 characters for password, and unmatch of password and confirmed password, it returns error and appeared the error message on the text.
 
@@ -65,8 +65,8 @@ hasher = sha256_crypt.using(rounds=30000)
 def make_hash(text:str):
     return hasher.hash(text)
 ```
-I created hash function in the different file called 'tools.py' to prevent the main coe gets longer.
-I imported 'sha256_crypt' module and create the function to make hash.
+I created hash function in the different file called `tools.py` to prevent the main coe gets longer.
+I imported `sha256_crypt` module and create the function to make hash.
 
 ```.py
 from tools import make_hash, check_hash
@@ -83,7 +83,7 @@ from tools import make_hash, check_hash
             return redirect(url_for('login'))
 ```
 By using username and password, I create hashed signature.
-If all input data fulfill the validation and complete hash, then these values inserted into the table 'users'.
+If all input data fulfill the validation and complete hash, then these values inserted into the table `users`.
 
 **password entering**
 
@@ -111,15 +111,15 @@ def login():
                 login_err=True
 ```
 First, I received username and password as inputs. Then, create hash_text with inputted username and password. 
-Using for loop for the values in 'users' table, I compare signature stored in the table with hash_text then if it matches, the system recognizes it is a valid login.
-If the login succeed, it starts session with 'user_id'.
+Using for loop for the values in `users` table, I compare signature stored in the table with hash_text then if it matches, the system recognizes it is a valid login.
+If the login succeed, it starts session with `user_id`.
 he purpose of using sessions in web development is to maintain stateful information across multiple requests within a user's browsing session. 
 Sessions enable the storage and retrieval of user-specific data, enhance security, and facilitate the creation of personalized and interactive web experiences.[^2]
 If the login doesn't succeed, it returns error and error message appears on the text.
 
 #### logging validation
 To ensure which user make a post or write a comment, the website requires login before the user take actions on the website.
-In order to identify whether user logged in or not, I created a 'logging' function in 'tools.py' so that I can use this function without less code in the main python file.
+In order to identify whether user logged in or not, I created a `logging` function in `tools.py` so that I can use this function without less code in the main python file.
 
 ```.py
 def logging():
@@ -167,7 +167,7 @@ def post():
 
 ```
 First, it checks the login state of user, and if the user id not logged in, then the page redirect to login page.
-Then, I used 'POST' method, to receive the inputs and stores values in the table 'posts' with date of post by using 'datetime' package.
+Then, I used 'POST' method, to receive the inputs and stores values in the table `posts` with date of post by using 'datetime' package.
 
 #### upload photo
 ```.py
@@ -182,7 +182,7 @@ Then, I used 'POST' method, to receive the inputs and stores values in the table
             </div>
         </div>
 ```
-In html file, I used 'input' which type is 'file'. I set acceptable file types in only phot files.
+In html file, I used 'input' which type is `file`. I set acceptable file types in only phot files.
 
 ```.py
 #app.py
@@ -286,8 +286,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
 ```
 
-
-
 ### like system (Success Criteria 3)
 To meet the criteria, I created the like system which the logged-in users to like posts.
 
@@ -310,19 +308,19 @@ def like(post_id):
 ```
 When the user click a like button, the system checks the login state of a user.
 If the user hasn't logged in yet, the system redirect to login page.
-If the user has already logged in, then system obtains the 'user_id'.
+If the user has already logged in, then system obtains the `user_id`.
 The system search the table 'like' to check whether the user has already liked the post or not.
 If user already like the post, then the system remove like when the like button clicked.
 If not, the system add like with 'post_id' and 'user_id'.
 
 
-
 ### follow system (Success Criteria 4)
-
+To meet the criteria, I created follow / unfollow system.
 
 
 ### profile (Success Criteria 5)
-### upload images (Success Criteria 6)
+
+
 ### sending emails (Success Criteria 7)
 
 ## CriteriaD

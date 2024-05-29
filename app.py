@@ -146,7 +146,6 @@ def register():
     db_connection.close()
     return render_template('register.html')
 
-@app.route('/forget_pass_email', methods=['GET','POST'])
 
 @app.route('/topic/<topic_id>', methods=['GET','POST'])
 def topic(topic_id):
@@ -388,11 +387,69 @@ def view_detail(post_id):
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/edit', methods=['GET','POST'])
 def edit_comment(post_id, comment_id):
     db_connection = DatabaseWorker("project4")
+    topic_dict={
+        'G1': '1: Studies in Language and Literature',
+        'G2': '2: Language Acquisition',
+        'G3': '3: Individuals and Societies',
+        'G4': '4: Experimental Sciences',
+        'G5': '5: Mathematics',
+        'G6': '6: The Arts',
+        'TOK': 'TOK',
+        'CAS': 'CAS',
+        'EE': 'EE',
+        'EA': 'English A',
+        'JA': 'Japanese A',
+        'EB': 'English B',
+        'JB': 'Japanese B',
+        'Jab': 'Japanese ab initio',
+        'Cab': 'Chinese ab initio',
+        'Sab': 'Spanish ab initio',
+        'Ec': 'Economics',
+        'Gp': 'Global Politics',
+        'Hi': 'History',
+        'Es': 'ESS',
+        'Bi': 'Biology',
+        'Ph': 'Physics',
+        'Ch': 'Chemistry',
+        'Co': 'Computer Science',
+        'MA': 'Math AA',
+        'MI': 'Math IA',
+        'Vi': 'Visual Art',
+        'Fi': 'Film',
+        'Th': 'Theatre'
+
+    }
     post=db_connection.search(query=f"SELECT * FROM posts WHERE id={post_id}", multiple=False)
+    post = list(post)
+    post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+    like_number = db_connection.search(query=f"SELECT COUNT(*) FROM likes WHERE post_id={post_id}", multiple=False)[0]
+    comment_number = \
+        db_connection.search(query=f"SELECT COUNT(*) FROM comments WHERE post_id={post_id}", multiple=False)[0]
+
     comments=db_connection.search(query=f"SELECT * FROM comments WHERE post_id={post_id}", multiple=True)
+    group_name = topic_dict.get(post[5], "Unknown Group")
+    print(post[6])
+    print(group_name)
+    subject_name = topic_dict.get(post[6], "Unknown Subject")
+    post.append(like_number)  # add number of likes to a list of post
+    post.append(post_user_name[0])
+    post.append(comment_number)
+    comment_data = []
+
 
     if logging():
         user_id = session['user_id']
+        for comment in comments:
+            commenter_id=comment[3]
+            comment_user_name = db_connection.search(query=f"""
+            SELECT users.username 
+            FROM users 
+            JOIN posts 
+            ON posts.user_id =users.id WHERE posts.user_id = {post[3]}""", multiple=False)
+            print(comment_user_name[0])
+            comment=list(comment)
+            comment.append(comment_user_name[0])
+            comment_data.append((comment))
         comment_to_edit=db_connection.search(query=f"SELECT * FROM comments where id ={comment_id}", multiple=False)
         comment_text=comment_to_edit[4]
         if request.method == "POST":
@@ -401,7 +458,7 @@ def edit_comment(post_id, comment_id):
             db_connection.close()
             return redirect(url_for('view_detail', post_id=post_id))
     db_connection.close()
-    return render_template('detail.html', post=post, comments=comments, comment_text=comment_text, logging=logging())
+    return render_template('detail.html', post=post, comment_data=comment_data, comment_text=comment_text, logging=logging(), group=group_name, subject=subject_name)
 
 @app.route('/main/<int:post_id>/comment/<int:comment_id>/delete')
 def delete_comment(post_id, comment_id):
@@ -528,7 +585,6 @@ def user_follow(f_user_id):
         user_id = session['user_id']
     else:
         return redirect(url_for('login'))
-    user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={f_user_id}", multiple=False)
     f_user_with = db_connection.search(query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={f_user_id}",multiple=False)
     print(f_user_with)
     following = f_user_with is not None  # True: if following, False: if not following
@@ -537,7 +593,7 @@ def user_follow(f_user_id):
     else:
         db_connection.run_query(query=f"INSERT INTO user_follows (user_id, following_user_id) values ({user_id},{f_user_id})")
     db_connection.close()
-    return redirect(url_for('profile', user=user_pro[0]))
+    return redirect(url_for('profile', user=f_user_id))
 
 @app.route('/topic/<topic_id>/follow', methods=['POST'])
 def topic_follow(topic_id):
@@ -609,7 +665,7 @@ def my_profile_edit():
             print(f"message {new_pro_msg}")
             print(f"file {file_name}")
             db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
-            # db_connection.run_query(f"UPDATE users set pro_img='{file_name}' where id={user_id}")
+            db_connection.run_query(f"UPDATE users set pro_img='{file_name}' where id={user_id}")
         else:
             db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
         db_connection.close()

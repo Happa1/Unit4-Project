@@ -110,7 +110,7 @@
             {% endif %}
 
             <div class="bottom_container">
-                <button><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-clipboard"></i>VIEW POST</a></button>
+                <button id="view_btn"><a href="{{ url_for('view_detail', post_id=p[0]) }}"><i class="fa-solid fa-clipboard"></i>VIEW POST</a></button>
                 {% if p[10] == True %}
                     <button name="like_btn" class="like_btn"><a href="{{ url_for('like', post_id=p[0]) }}">
                         <i class="fa fa-heart" style="font-size:20px;color:#ED4987"></i>{{ p[7] }}</a></button>

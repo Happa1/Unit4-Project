@@ -166,7 +166,7 @@ def post():
         return redirect(url_for('login'))
 
 ```
-First, it checks the login state of user, and if the user id not logged in, then the page redirect to login page.
+First, it checks the login status of user, and if the user id not logged in, then the page redirect to login page.
 Then, I used 'POST' method, to receive the inputs and stores values in the table `posts` with date of post by using 'datetime' package.
 
 #### upload photo
@@ -306,7 +306,7 @@ def like(post_id):
         db_connection.close()
         return redirect(url_for('main'))
 ```
-When the user click a like button, the system checks the login state of a user.
+When the user click a like button, the system checks the login status of a user.
 If the user hasn't logged in yet, the system redirect to login page.
 If the user has already logged in, then system obtains the `user_id`.
 The system search the table 'like' to check whether the user has already liked the post or not.
@@ -316,9 +316,42 @@ If not, the system add like with 'post_id' and 'user_id'.
 
 ### follow system (Success Criteria 4)
 To meet the criteria, I created follow / unfollow system.
+It allows user to follow other users or topics that they are interested in.
+
+#### user follow
+```.py
+def user_follow(f_user_id):
+    db_connection = DatabaseWorker("project4")
+    if logging():
+        user_id = session['user_id']
+    else:
+        return redirect(url_for('login'))
+    f_user_with = db_connection.search(query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={f_user_id}",multiple=False)
+    following = f_user_with is not None  # True: if following, False: if not following
+    if following:
+        db_connection.run_query(query=f"DELETE FROM user_follows WHERE user_id={user_id} and following_user_id={f_user_id}")
+    else:
+        db_connection.run_query(query=f"INSERT INTO user_follows (user_id, following_user_id) values ({user_id},{f_user_id})")
+    db_connection.close()
+    return redirect(url_for('profile', user==f_user_id))
+```
+This systems allows only logged-in user to use follow function, so it first identify the login status of user.
+If the user hasn't logged in yet, it redirect to login page.
+When the follow button is clicked on, the system obtain the clicked user's user id and give this value to `user_follow` function, and this is saved as `f_user_id`.
+First, by using the given `f_user_id`, the system checks whether the user currently follows that `f_user_id` from the table `user_follows`, and returns the value of `f_user_with`.
+`f_user_with` returns `None` if the user hasn't followed the selected user.
+If `f_user_with` is not `None`, it is `following == True`, and if it's not `following==False`.
+From the above process, the system identify the following status.
+Then, if the user already followed the clicked user, it removes following record from the table `user_follows`.
+If the user hasn't followed the clicked user, it inserts user's id and selected following user's id in the table `user_follows`.
+
+#### topic follow
 
 
 ### profile (Success Criteria 5)
+To meet the criteria, system provides user's relevant information on the profile page.
+This information includes, username, user's profile photo, profile message, the number of posts, the number of following users, the number of followed users, and posts the user made.
+If it is your profile, the user can edit, photo and message. If it is other user's profile, the user can follow or unfollow from there.
 
 
 ### sending emails (Success Criteria 7)

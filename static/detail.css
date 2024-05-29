@@ -8,11 +8,26 @@
     justify-content: space-between;
     height: 30%;
     margin: 30px;
+    margin-bottom: 0;
+}
+
+.left_box{
+    margin-right: 20px;
+}
+
+.left_box p{
+    margin: 5px 0;
 }
 
 .top_box{
     display: flex;
     gap: 50px;
+}
+
+.hashtag{
+    display: flex;
+    gap: 30px;
+    margin-top: 5px;
 }
 
 .right_box{
@@ -27,11 +42,13 @@
 .comment_box{
     text-align: center;
     padding: 50px;
+    padding-top: 0px;
 }
 
 .comment_box h3{
     width: 90%;
     font-size: 23px;
+    margin-bottom: 0;
 }
 
 .view_comment_box{
@@ -51,9 +68,9 @@
     margin: 0;
 }
 
-.comment_top i:hover{
-    color: #E8975A;
-}
+/*.comment_top i:hover{*/
+/*    color: #E8975A;*/
+/*}*/
 
 .comment{
     background-color: #cef2fb;
@@ -76,7 +93,7 @@
 
 .submit_btn{
     font-size: 20px;
-    border-bottom: 5px solid #FF4C90;
+    border-bottom: 5px solid #4d5b8e;
     height: 50px;
     width: 50px;
     border-radius: 100vh;
@@ -92,5 +109,5 @@
 
 .submit_btn:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #FF4C90;
+    border-bottom: 2px solid #4d5b8e;
 }

@@ -31,18 +31,18 @@ form{
 
 
 #unfollow{
-    border-bottom: 5px solid #FF4C90;
+    border-bottom: 5px solid #4d5b8e;
     border-radius: 100vh;
-    border-color: #FF4C90;
+    border-color: #4d5b8e;
     color: #3E3036 ;
     display: table-cell;
     vertical-align: middle;
-    background-color: #FFC1EB;
+    background-color: #97b0c8;
 }
 
 #follow:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #FF4C90;
+    border-bottom: 2px solid #4d5b8e;
 }
 
 .fa{
@@ -51,13 +51,13 @@ form{
 
 
 #follow{
-    border-bottom: 5px solid #FFA2E1;
-    border-color: #FFA2E1 ;
+    border-bottom: 5px solid #4d5b8e;
+    border-color: #4d5b8e;
     border-radius: 100vh;
     background-color: #ffffff;
 }
 
 #unfollow:hover{
     margin-top: 3px;
-    border-bottom: 2px solid #FFA2E1;
+    border-bottom: 2px solid #4d5b8e;
 }

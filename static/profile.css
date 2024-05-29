@@ -108,6 +108,23 @@ td{
     height: 35px;
 }
 
+.profile_info_container button{
+  background-color: white;
+  border-color: #4d5b8e;
+  border-radius: 5px;
+  color: #333333;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+  margin: 10px;
+}
+
+.profile_info_container button:hover{
+  color: white;
+  background-color: #4d5b8e;
+}
+
+
 /*.profile_info_container button{*/
 /*  background-color: white;*/
 /*  border-color: #4d5b8e;*/

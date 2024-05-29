@@ -351,7 +351,69 @@ If the user hasn't followed the clicked user, it inserts user's id and selected 
 ### profile (Success Criteria 5)
 To meet the criteria, system provides user's relevant information on the profile page.
 This information includes, username, user's profile photo, profile message, the number of posts, the number of following users, the number of followed users, and posts the user made.
-If it is your profile, the user can edit, photo and message. If it is other user's profile, the user can follow or unfollow from there.
+If it is your profile, the user can edit, photo and message.
+If it is other user's profile, the user can follow or unfollow here.
+
+
+```.py
+def profile(user):
+    db_connection = DatabaseWorker("project4")
+    user_pro = db_connection.search(query=f"SELECT * FROM users WHERE id={user}", multiple=False)
+    post_number = db_connection.search(query=f"SELECT COUNT(*) FROM posts where user_id={user}", multiple=False)[0]
+    follower_number = db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE following_user_id={user}", multiple=False)[0]
+    following_number = db_connection.search(query=f"SELECT COUNT(*) FROM user_follows WHERE user_id={user}", multiple=False)[0]
+    user_posts = db_connection.search(query=f"SELECT * FROM posts WHERE user_id={user}", multiple=True)
+
+    user_post_data = []
+    for post in user_posts:
+        post_id = post[0]
+        post_user_name = db_connection.search(query=f"SELECT username FROM users WHERE id = {post[3]}")
+        post = list(post)  # make post as a list
+        post.append(post_user_name[0])
+        user_post_data.append(post)
+```
+
+When the user clicked the username on post or comment, it transits to profile page with the value of clicked user's id.
+`profile` function receives clicked user's id as `user`.
+By using `user`, it gets users' information from `users` table and return as `user_pro`.
+The number of posts, followers, and following users are counted by using `SELECT COUNT(*)` and `user`.
+Loop the `user_pro` and turns into list, I added username which is stored as number id in `posts` table by referring the table `users`.
+
+
+#### profile owner check and follow button
+By using the same system in 
+However, if the profile is logged in users, the user can't follow / unfollow.
+Therefore, if the profile is logged in user's, then it shows button to transit to the user's own profile instead of follow / unfollow button.
+
+```.py
+    this_is_me = False
+    if logging():
+        user_id = session['user_id']
+        f_user_with = db_connection.search(
+            query=f"SELECT * from user_follows where user_id={user_id} and following_user_id={user}", multiple=False)
+        following = f_user_with is not None
+        if user_id==user:
+            this_is_me=True
+```
+
+```.html
+# profile.html
+    {% if this_is_me==False%}
+         {% if following %}
+            <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+                <button type="submit" class="follow_btn" id="unfollow"><i class="fa-solid fa-user-minus"></i> UNFOLLOW</button>
+            </form>
+        {% else %}
+            <form action="{{ url_for('user_follow', f_user_id=user[0]) }}" method="post">
+                <button type="submit" class="follow_btn" id="follow"><i class="fa-solid fa-user-plus"></i> FOLLOW</button>
+            </form>
+         {% endif %}
+    {% elif this_is_me==True %}
+        <button><a href="{{ url_for('my_profile') }}">See my profile</a></button>
+    {% endif %}
+```
+
+If the user is logged in and 
 
 
 ### sending emails (Success Criteria 7)

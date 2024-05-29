@@ -7,7 +7,7 @@
 #### registration
 
 
-```.pycon
+```.py
 @app.route('/register', methods=['GET','POST'])
 def register():
     db_connection = DatabaseWorker("project4")
@@ -80,8 +80,9 @@ def register():
 ### sending emails (Success Criteria 7)
 
 ## CriteriaD
+I cite[^1]
 ## CriteriaE
 
 ## Citation
-[^1]:dfjkals;
+[^1]: Gomez, Jose. “Web Apps Vs. Desktop Apps: Understanding the Differences.” Koombea, 16 November 2023, https://www.koombea.com/blog/web-apps-vs-desktop-apps/. Accessed 10 March 2024.
 

@@ -5,10 +5,8 @@
 
 ### login / registration System (Success Criteria 1)
 #### registration
-
-
+To meet the criteria, I made a registration system. This registration system receive username, email, and password as inputs.
 ```.py
-@app.route('/register', methods=['GET','POST'])
 def register():
     db_connection = DatabaseWorker("project4")
     if request.method=='POST':
@@ -17,8 +15,13 @@ def register():
         match = re.match('[A-Za-z0-9._+]+@[A-Za-z]+.[A-Za-z]', email)
         password = request.form.get('psw')
         conf_password = request.form.get('psw_conf')
+```
 
-        valid = True
+By using the post method, I receive the values input by user by using the 'request' library with 'POST' method.
+I imported 're' and used 'match()' module to verify whether valid email or not.
+
+```.py
+       valid = True
         user_err=False
         email_err=False
         psw_err=False
@@ -43,7 +46,30 @@ def register():
         if password!=conf_password:
             psw_cnf_err=True
             valid = False
+```
+To validate the input values, I used boolean. Depending on the input, error become 'True' and valid will become 'False'.
+To prevent the duplication of username, I searched 'username' in the database of 'users' and I compared stored username with the input username by using for loop.
+If the username has been used, then it returns error in username and set valid.
+In other cases, such as invalid form of email, less than 8 characters for password, and unmatch of password and confirmed password, it returns error and appeared the error message on the text.
 
+
+To enhance the security I decided to use hash. 
+Hash functions are used for data integrity and often in combination with digital signatures. With a good hash function, even a 1-bit change in a message will produce a different hash (on average, half of the bits change). With digital signatures, a message is hashed and then the hash itself is signed. [^1]
+
+```.py
+# tools.py
+from passlib.hash import sha256_crypt
+
+hasher = sha256_crypt.using(rounds=30000)
+
+def make_hash(text:str):
+    return hasher.hash(text)
+```
+I created hash function in the different file called 'tools.py' to prevent the main coe gets longer.
+I imported 'sha256_crypt' module and create the function to make hash.
+
+```.py
+from tools import make_hash, check_hash
         hash_text=f"name{uname}, pass{password}"
         hash=make_hash(hash_text)
 
@@ -55,16 +81,91 @@ def register():
             db_connection.run_query(query=query)
             db_connection.close()
             return redirect(url_for('login'))
+```
+By using username and password, I create hashed signature.
+If all input data fulfill the validation and complete hash, then these values inserted into the table 'users'.
 
-        db_connection.close()
-        return render_template('register.html', email_err=email_err, psw_err=psw_err, psw_cnf_err=psw_cnf_err, user_err=user_err)
-    db_connection.close()
-    return render_template('register.html')
+**password entering**
+
+
+#### login
+To meet the criteria, I created login system which requires username and password for logging. 
+```.py
+def login():
+    db_connection = DatabaseWorker("project4")
+    login_err=False
+    if request.method=='POST':
+        uname=request.form.get('uname')
+        password=request.form.get('psw')
+        #Check database for user, then compare hash for the password
+        results=db_connection.search(query="""SELECT * FROM users""", multiple=True)
+        for row in results:
+            signature=row[2] #hash text
+            hash_text=f"name{uname}, pass{password}"
+            valid=check_hash(hashed_text=signature, text=hash_text)
+            if valid:
+                user_id = row[0]
+                session['user_id'] = user_id
+                return redirect(url_for('main'))
+            else:
+                login_err=True
+```
+First, I received username and password as inputs. Then, create hash_text with inputted username and password. 
+Using for loop for the values in 'users' table, I compare signature stored in the table with hash_text then if it matches, the system recognizes it is a valid login.
+If the login succeed, it starts session with 'user_id'.
+he purpose of using sessions in web development is to maintain stateful information across multiple requests within a user's browsing session. 
+Sessions enable the storage and retrieval of user-specific data, enhance security, and facilitate the creation of personalized and interactive web experiences.[^2]
+If the login doesn't succeed, it returns error and error message appears on the text.
+
+#### logging validation
+To ensure which user make a post or write a comment, the website requires login before the user take actions on the website.
+
+
+```.py
+def logging():
+    login=False
+    user_id = session.get('user_id')  # get()メソッドを使って安全に取得
+    if user_id:
+        login = True
+    return login
 ```
 
 
 ### posting system (Success Criteria 2)
+To meet the criteria, I created posting system that a user can post a question and photo on the website.
 
+
+```.py
+def post():
+    db_connection = DatabaseWorker("project4")
+    if logging():
+        user_id = session['user_id']
+        if request.method=='POST':
+            date=datetime.now().strftime('%Y%b%d')
+            text=request.form.get('post_text')
+            user_id=user_id
+            file = request.files.get('file')
+            print(f"file: {file}")
+            file_name = f"{date}_{file.filename}"
+            file_path = os.path.join('static/post_image', file_name)
+            file.save(file_path)
+            genre=request.form.get('genre')
+            subject=request.form.get('subject')
+            print(subject)
+            query = """
+            INSERT INTO posts (date, post_text, user_id, photo, genre, subject) 
+            VALUES (?, ?, ?, ?, ?, ?)
+            """
+            values = (date, text, user_id, file_name, genre, subject)
+            db_connection.run_query(query=query, params=values)
+            db_connection.close()
+            return redirect(url_for('main'))
+        db_connection.close()
+        return render_template('post.html', logging=logging())
+    else:
+        return redirect(url_for('login'))
+
+```
 
 
 ### like system (Success Criteria 3)
@@ -84,5 +185,5 @@ I cite[^1]
 ## CriteriaE
 
 ## Citation
-[^1]: Gomez, Jose. “Web Apps Vs. Desktop Apps: Understanding the Differences.” Koombea, 16 November 2023, https://www.koombea.com/blog/web-apps-vs-desktop-apps/. Accessed 10 March 2024.
-
+[^1]: Majeed, Umer, et al. “Blockchain for IoT-Based Smart Cities: Recent Advances, Requirements, and Future Challenges.” Journal of Network and Computer Applications, vol. 181, 1 May 2021, pp. 103007–103007, www.sciencedirect.com/topics/computer-science/hash-function#:~:text=Hash%20functions%20are%20used%20for,the%20hash%20itself%20is%20signed., https://doi.org/10.1016/j.jnca.2021.103007. Accessed 29 May 2024.
+[^2]: EITCA Academy. “What Is the Purpose of Using Sessions in Web Development? - EITCA Academy.” EITCA Academy, 8 Aug. 2023, eitca.org/web-development/eitc-wd-pmsf-php-and-mysql-fundamentals/expertise-in-php/sessions/examination-review-sessions/what-is-the-purpose-of-using-sessions-in-web-development/#:~:text=To%20summarize%2C%20the%20purpose%20of,personalized%20and%20interactive%20web%20experiences. Accessed 29 May 2024.

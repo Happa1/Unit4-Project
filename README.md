@@ -323,6 +323,8 @@ To meet the criteria, I created follow / unfollow system.
 
 ### sending emails (Success Criteria 7)
 
+### UI design
+
 ## CriteriaD
 Please watch this vide.
 

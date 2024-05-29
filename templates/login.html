@@ -53,7 +53,7 @@
         {% if login_err %}
             <p>Please check again.</p>
         {% endif %}
-      <a href="#">Forgot your password?</a>
+      <a href="{{ url_for('reset_pass') }}">Forgot your password?</a>
       <button type="submit">Sign In</button>
     </form>
   </div>

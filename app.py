@@ -7,8 +7,20 @@ import sqlite3
 from tools import DatabaseWorker, make_hash, check_hash, logging
 from datetime import datetime, timedelta
 from flask import g
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+
+# app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # Use your actual Gmail address
+
+# app.config['MAIL_PASSWORD'] = 'your_app_password'     # Use your generated App Password
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
+
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime=timedelta(minutes=30)
 
@@ -36,6 +48,23 @@ def hello_world():  # put application's code here
         post_data.append(post)  # add post to post_data
     db_connection.close()
     return render_template('main.html', posts=post_data, logging=logging())
+
+
+@app.route("/<recipient_email>/send_email", methods=['GET','POST'])
+def send_email(recipient_email):
+    # Define the list of recipients
+
+    recipients = [recipient_email]
+
+    # Create a Message object with subject, sender, and recipient list
+    msg = Message(subject='Reset Password for IB reddit',
+                  sender='manyo.comsci@gmail.com',
+                  recipients=recipients)  # Pass the list of recipients here
+    # Email body
+    msg.body = 'Please reset your password with the following procedure.'
+    # Send the email
+    mail.send(msg)
+    return render_template('reset_email_success.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -237,13 +266,9 @@ def favorite():
 
 @app.route('//reset_pass', methods=['GET','POST'])
 def reset_pass():
-    if logging():
-        user_id = session['user_id']
-        if request.method == "POST":
-            new_comment=request.form.get('comment_text')
-            db_connection.run_query(f"UPDATE comments set comment='{new_comment}' where id={comment_id}")
-            db_connection.close()
-            return redirect(url_for('login'))
+    if request.method=='POST':
+        recipient_email=request.form.get('email')
+        return redirect(url_for('send_email', recipient_email=recipient_email))
 
     return render_template('reset_pass.html')
 

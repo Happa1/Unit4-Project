@@ -591,6 +591,7 @@ After the email sent, the website transits to `reset_email_success.html`.
 
 ## CriteriaD
 Please watch this vide.
+https://drive.google.com/file/d/1D-WHNp-VGpvXmoHEkrsga2e6EgPhjOwA/view?usp=sharing
 
 ## CriteriaE
 

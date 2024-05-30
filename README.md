@@ -396,6 +396,9 @@ Therefore, if the profile is logged in user's, then it shows button to transit t
             this_is_me=True
 ```
 
+As same as following function, it returns following status as `following` to use in html file.
+Also, it checks whether the profile is logged in user's or not.
+
 ```.html
 # profile.html
     {% if this_is_me==False%}
@@ -413,10 +416,53 @@ Therefore, if the profile is logged in user's, then it shows button to transit t
     {% endif %}
 ```
 
-If the user is logged in and 
+If `this_is_me==False` which means that the profile is not logged in user's, then it shows follow / unfollow button depending on the user's following status.
+If `this_is_me==True`, then it shows the button which transits the 'my profile' page.
 
 
 ### sending emails (Success Criteria 7)
+To meet the criteria, I made email function to send the procedure when the user forget the password.
+I used `flask_mail` and gmail to create the email sending system.
+I referred this website for the gmail app password setting [^5] and code in this website [^6].
+For security reasons, I hide my email address and gmail app password, but you can see how it functions from the video in criteria D.
+
+```.py
+from flask_mail import Mail, Message
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # Use your actual Gmail address
+app.config['MAIL_PASSWORD'] = 'your_app_password'     # Use your generated App Password
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
+```
+
+First, I imported `flask_mail` and modules, `Mail` and `Message`.
+To enable later changes to the configuration without having to modify the code, I save my credentials in environment variables, instead of directly in my code or configuration files by hard-coding them. 
+This email is development testing, so I used SSL instead of TLS and port number 587.
+
+
+```.python
+@app.route("/<recipient_email>/send_email", methods=['GET','POST'])
+def send_email(recipient_email):
+    # Define the list of recipients
+    recipients = [recipient_email]
+    # Create a Message object with subject, sender, and recipient list
+    msg = Message(subject='Reset Password for IB reddit',
+                  sender='manyo.comsci@gmail.com',
+                  recipients=recipients)  # Pass the list of recipients here
+    # Email body
+    msg.body = 'Please reset your password with the following procedure.'
+    # Send the email
+    mail.send(msg)
+    return render_template('reset_email_success.html')
+```
+
+If the user enter his email address and clicked the button, the `send_email` function receives entered email address as `recipient_email`.
+I set the subject, sender, and recipients in the `Message`.
+Also, I created the email body in `msg.body`.
+After the email sent, the website transits to `reset_email_success.html`.
 
 ### UI design
 
@@ -430,6 +476,8 @@ Please watch this vide.
 [^2]: EITCA Academy. “What Is the Purpose of Using Sessions in Web Development? - EITCA Academy.” EITCA Academy, 8 Aug. 2023, eitca.org/web-development/eitc-wd-pmsf-php-and-mysql-fundamentals/expertise-in-php/sessions/examination-review-sessions/what-is-the-purpose-of-using-sessions-in-web-development/#:~:text=To%20summarize%2C%20the%20purpose%20of,personalized%20and%20interactive%20web%20experiences. Accessed 29 May 2024.
 [^3]: mule. “フォームで画像選択時にプレビュー表示する【HTML・CSS・JQuery】.” Muleの技術ブログ, 25 June 2022, tool-engineer.work/article50/. Accessed 29 May 2024.
 [^4]:“【HTML】複数のプルダウンを連動させる方法とは？JavaScriptのコードも徹底解説 - WEBCAMP MEDIA.” WEBCAMP MEDIA, 15 Sept. 2021, web-camp.io/magazine/archives/85111. Accessed 29 May 2024.
+[^5]:“PythonでGmailを操作する(事前準備編).” Zenn, 26 May 2024, zenn.dev/eito_blog/articles/8c97f0bcbc3260. Accessed 30 May 2024.
+[^6]: “Flask Send Email Gmail: Tutorial with Code Snippets [2024].” Mailtrap, 11 Apr. 2024, mailtrap.io/blog/flask-send-email-gmail/. Accessed 30 May 2024.
 
 
 

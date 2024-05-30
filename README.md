@@ -354,6 +354,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
 ```
 
+First, the pull down menu which class is `sub_select` is hidden.
+If the subject group which class name is `main_select` is clicked, then it users value to refer the id of `suce_select`.
+Then, it shows the sub pulldown menu.
+
 ### comment (Success Criteria 2)
 To meet the success criteria, I created comment system which allows user to create / edit / delete comments for post.
 #### Create comment

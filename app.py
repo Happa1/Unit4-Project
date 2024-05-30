@@ -14,12 +14,17 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 
+app.config['MAIL_USERNAME'] = 'manyo.comsci@gmail.com'  # Use your actual Gmail address
+# app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # Use your actual Gmail address
+app.config['MAIL_PASSWORD'] = 'nrfl vkgt wkhe oixw'     # Use your generated App Password
+
 # app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # Use your actual Gmail address
 
 # app.config['MAIL_PASSWORD'] = 'your_app_password'     # Use your generated App Password
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
+
 
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime=timedelta(minutes=30)

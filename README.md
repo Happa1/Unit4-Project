@@ -6,12 +6,48 @@ source: [^9]
 
 ## CriteriaC Development
 ### Existing tools
+1. Flask
+2. os
+3. re
+4. passlib.hash
+5. datetime
+5. sqlite3
+6. jquery
 
 ### Used techniques
+1. Flask library for website construction
+2. HTML for website structure and contents
+3. CSS fpr styling
+4. Javascript / Python inside HTMl for complex features
+5. Sqlite for database
+6. for loops for obtaining multiple values from database
+7. if statement for conditional features
+8. hash for encryption of password
+9. list for collection of data
+10. gmail for sending email server
+11. Object-Oriented Programming (OOP) for sub program
 
 ### References
-[Font Awesome] (https://fontawesome.com/) 
+### [Font Awesome](https://fontawesome.com/)
+Font Awesome is a font and icon toolkit based on CSS and Less.
+As of 2023, Font Awesome was used by 30% of sites that use third-party font scripts, placing Font Awesome in second place after Google Fonts.
 
+### [HTML Color Codes](https://htmlcolorcodes.com/)
+HTML color codes offers the color chart that I can easily find HTML color names with Hex color codes, RGB and HSL values.
+
+### [CSS グラデーションジェネレーター](https://front-end-tools.com/generateGradient/#google_vignette)
+CSS グラデーションジェネレーター generates gradation with several supported gradient types.
+It also provides sample gradation that I can refer to.
+
+### [W3Schools](https://www.w3schools.com/css/)
+W3Schools provides sample code of html, css, and javascript with preview.
+It helped me to get idea of how to code and how each codes are responding each other.
+
+### [ChatGPT](https://chat.openai.com/domain_migration?next=https%3A%2F%2Fchatgpt.com%2F)
+ChatGPT is a free-to-use AI system  developed by OpenAI and launched on November 30, 2022.
+I used this to get idea how to structure my code. It also helped me to identify debugging to prevent user dissatisfaction.
+
+**Note:** Only forms or style are copied and Not directly AI generated code is copied.
 
 ### login / registration System (Success Criteria 1)
 #### registration
@@ -446,7 +482,6 @@ Also, it checks whether the profile is logged in user's or not.
 
 If `this_is_me==False` which means that the profile is not logged in user's, then it shows follow / unfollow button depending on the user's following status.
 If `this_is_me==True`, then it shows the button which transits the 'my profile' page.
-
 
 ### sending emails (Success Criteria 7)
 To meet the criteria, I made email function to send the procedure when the user forget the password.

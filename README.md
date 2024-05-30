@@ -10,7 +10,7 @@ source: [^9]
 ### Used techniques
 
 ### References
-### [Font Awesome] (https://fontawesome.com/) 
+[Font Awesome] (https://fontawesome.com/) 
 
 
 ### login / registration System (Success Criteria 1)

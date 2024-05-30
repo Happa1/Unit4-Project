@@ -588,8 +588,6 @@ I set the subject, sender, and recipients in the `Message`.
 Also, I created the email body in `msg.body`.
 After the email sent, the website transits to `reset_email_success.html`.
 
-### UI design
-
 
 ## CriteriaD
 Please watch this vide.

@@ -2,7 +2,6 @@
 
 ## CriteriaC Development
 
-
 ### login / registration System (Success Criteria 1)
 #### registration
 To meet the criteria, I made a registration system. This registration system receive username, email, and password as inputs.
@@ -52,7 +51,7 @@ To prevent the duplication of username, I searched `username` in the database of
 If the username has been used, then it returns error in username and set valid.
 In other cases, such as invalid form of email, less than 8 characters for password, and unmatch of password and confirmed password, it returns error and appeared the error message on the text.
 
-
+#### security with hash
 To enhance the security I decided to use hash. 
 Hash functions are used for data integrity and often in combination with digital signatures. With a good hash function, even a 1-bit change in a message will produce a different hash (on average, half of the bits change). With digital signatures, a message is hashed and then the hash itself is signed. [^1]
 
@@ -85,8 +84,29 @@ from tools import make_hash, check_hash
 By using username and password, I create hashed signature.
 If all input data fulfill the validation and complete hash, then these values inserted into the table `users`.
 
-**password entering**
-
+#### password eye visibility
+The password input are originally in dots ・・・ so that password won't been seen by other people.
+However, it is also important that the user can see what password he enters for high user satisfaction.
+To achieve this goal, I used javascript to make eye icon function.
+I referred this website [^8].
+```.py
+# login.js
+let eye = document.getElementById("eye");
+eye.addEventListener('click', function () {
+     if (this.previousElementSibling.getAttribute('type') == 'password') {
+          this.previousElementSibling.setAttribute('type', 'text');
+          this.classList.toggle('fa-eye');
+          this.classList.toggle('fa-eye-slash');
+     } else {
+          this.previousElementSibling.setAttribute('type', 'password');
+          this.classList.toggle('fa-eye');
+          this.classList.toggle('fa-eye-slash');
+     }
+})
+```
+It sets `eye` for icon eye of `id=eye` in html file.
+If the `eye` is clicked then it turns input type from password to text.
+In the reverse case it is vice versa.
 
 #### login
 To meet the criteria, I created login system which requires username and password for logging. 
@@ -129,7 +149,6 @@ def logging():
         login = True
     return login
 ```
-
 
 ### posting system (Success Criteria 2, Success Criteria 6)
 To meet the criteria, I created posting system that a user can post a question and photo on the website.
@@ -313,7 +332,6 @@ The system search the table 'like' to check whether the user has already liked t
 If user already like the post, then the system remove like when the like button clicked.
 If not, the system add like with 'post_id' and 'user_id'.
 
-
 ### follow system (Success Criteria 4)
 To meet the criteria, I created follow / unfollow system.
 It allows user to follow other users or topics that they are interested in.
@@ -345,8 +363,7 @@ From the above process, the system identify the following status.
 Then, if the user already followed the clicked user, it removes following record from the table `user_follows`.
 If the user hasn't followed the clicked user, it inserts user's id and selected following user's id in the table `user_follows`.
 
-#### topic follow
-
+The topic follow / unfollow system works in the same way.
 
 ### profile (Success Criteria 5)
 To meet the criteria, system provides user's relevant information on the profile page.
@@ -440,10 +457,10 @@ mail = Mail(app)
 
 First, I imported `flask_mail` and modules, `Mail` and `Message`.
 To enable later changes to the configuration without having to modify the code, I save my credentials in environment variables, instead of directly in my code or configuration files by hard-coding them. 
-This email is development testing, so I used SSL instead of TLS and port number 587.
+This email is development testing, so I used SSL instead of TLS and port number 587. [^7]
 
 
-```.python
+```.py
 @app.route("/<recipient_email>/send_email", methods=['GET','POST'])
 def send_email(recipient_email):
     # Define the list of recipients
@@ -478,6 +495,8 @@ Please watch this vide.
 [^4]:“【HTML】複数のプルダウンを連動させる方法とは？JavaScriptのコードも徹底解説 - WEBCAMP MEDIA.” WEBCAMP MEDIA, 15 Sept. 2021, web-camp.io/magazine/archives/85111. Accessed 29 May 2024.
 [^5]:“PythonでGmailを操作する(事前準備編).” Zenn, 26 May 2024, zenn.dev/eito_blog/articles/8c97f0bcbc3260. Accessed 30 May 2024.
 [^6]: “Flask Send Email Gmail: Tutorial with Code Snippets [2024].” Mailtrap, 11 Apr. 2024, mailtrap.io/blog/flask-send-email-gmail/. Accessed 30 May 2024.
+[^7]: “TLS vs SSL: What’s the Difference? Which One Should You Use?” Kinsta®, 14 Aug. 2023, kinsta.com/knowledgebase/tls-vs-ssl/. Accessed 30 May 2024.
+[^8]:“HTML パスワードフォームの目のマークを実装する | Logsuke.” Logsuke.com, 2022, logsuke.com/web/design/html/html-password-eye. Accessed 30 May 2024.
 
 
 

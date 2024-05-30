@@ -1,6 +1,17 @@
 # Unit4 Project
 
+![study_trouble.jpeg](doc_image%2Fstudy_trouble.jpeg)
+**Fig1: Image of client who will user IB reddit!**
+source: [^9]
+
 ## CriteriaC Development
+### Existing tools
+
+### Used techniques
+
+### References
+### [Font Awesome] (https://fontawesome.com/) 
+
 
 ### login / registration System (Success Criteria 1)
 #### registration
@@ -483,6 +494,7 @@ After the email sent, the website transits to `reset_email_success.html`.
 
 ### UI design
 
+
 ## CriteriaD
 Please watch this vide.
 
@@ -497,6 +509,7 @@ Please watch this vide.
 [^6]: “Flask Send Email Gmail: Tutorial with Code Snippets [2024].” Mailtrap, 11 Apr. 2024, mailtrap.io/blog/flask-send-email-gmail/. Accessed 30 May 2024.
 [^7]: “TLS vs SSL: What’s the Difference? Which One Should You Use?” Kinsta®, 14 Aug. 2023, kinsta.com/knowledgebase/tls-vs-ssl/. Accessed 30 May 2024.
 [^8]:“HTML パスワードフォームの目のマークを実装する | Logsuke.” Logsuke.com, 2022, logsuke.com/web/design/html/html-password-eye. Accessed 30 May 2024.
+[^9]: “Study Routine Tips to Ace That next Exam.” Fairbanks School of Public Health Blog, 16 Sept. 2022, blogs.iu.edu/publichealth/2022/09/16/study-routine-tips-to-ace-that-next-exam/. Accessed 30 May 2024.
 
 
 

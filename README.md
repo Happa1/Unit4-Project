@@ -383,10 +383,31 @@ def edit_comment(post_id, comment_id):
         db_connection.close()
         return redirect(url_for('view_detail', post_id=post_id))
 ```
-In the
+If the comment is the logged in user's comment, comment edit button appears.
+In the comment edit page, it returns `comment_text` which is an old comment in the test box. 
+When the edit button is clicked, new comment is inserted to table `comments`.
+Then, it redirects to post information detailed page.
 
 
 #### Delete comment
+```.py
+def delete_comment(post_id, comment_id):
+    db_connection = DatabaseWorker("project4")
+    if session['user_id']:
+        user_id = session['user_id']
+    db_connection.run_query(query=f"DELETE from comments where id={comment_id}")
+    db_connection.close()
+    return redirect(url_for('view_detail', post_id=post_id))
+```
+
+```.py
+# html
+    <a href="{{ url_for('delete_comment', comment_id=c[0], post_id=c[2])}}"
+        onclick="return confirm('Are you sure want to delete?')"><i class="fa-solid fa-trash-can"></i></a>
+```
+If the comment is the logged in user's comment, comment delete button appears.
+After the delete button clicked, it shows pop up message to ask confirmation for deleting.
+After delete is confirmed, it deletes the comment by using given `post_id` and `comment_id` from the table `comments`.
 
 ### like system (Success Criteria 3)
 To meet the criteria, I created the like system which the logged-in users to like posts.

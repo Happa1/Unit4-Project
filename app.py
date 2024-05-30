@@ -343,7 +343,6 @@ def view_detail(post_id):
             JOIN posts 
             ON posts.user_id =users.id WHERE posts.user_id = {post[3]}""", multiple=False)
             print(comment_user_name[0])
-
             my_comment=False
             if commenter_id==user_id:
                 my_comment= True

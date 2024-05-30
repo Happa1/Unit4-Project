@@ -181,7 +181,7 @@ def login():
 First, I received username and password as inputs. Then, create hash_text with inputted username and password. 
 Using for loop for the values in `users` table, I compare signature stored in the table with hash_text then if it matches, the system recognizes it is a valid login.
 If the login succeed, it starts session with `user_id`.
-he purpose of using sessions in web development is to maintain stateful information across multiple requests within a user's browsing session. 
+The purpose of using sessions in web development is to maintain stateful information across multiple requests within a user's browsing session. 
 Sessions enable the storage and retrieval of user-specific data, enhance security, and facilitate the creation of personalized and interactive web experiences.[^2]
 If the login doesn't succeed, it returns error and error message appears on the text.
 
@@ -198,7 +198,8 @@ def logging():
     return login
 ```
 
-### posting system (Success Criteria 2, Success Criteria 6)
+### posting system  (Success Criteria 2, Success Criteria 6)
+#### posting system
 To meet the criteria, I created posting system that a user can post a question and photo on the website.
 This posting system requires question, photo, group of subject, and subject as inputs.
 
@@ -353,6 +354,40 @@ document.addEventListener('DOMContentLoaded', function() {
     
 ```
 
+### comment (Success Criteria 2)
+To meet the success criteria, I created comment system which allows user to create / edit / delete comments for post.
+#### Create comment
+```.py
+    if request.method == 'POST':
+        date = datetime.now().strftime('%Y%b%d')
+        comment = request.form.get('comment_text')
+        user_id=user_id
+        query = f"""
+            INSERT INTO comments (date, user_id, post_id, comment) 
+            values ('{date}', '{user_id}','{post_id}','{comment}')"""
+        db_connection.insert(query=query)
+        db_connection.close()
+        return redirect(url_for('view_detail',post_id=post_id))
+```
+In the post detailed information page, there is a section that the logged in users can enter their comments.
+By using the method `POST`, it receives the comment and at the same time gets date by using `datetime`, user's id by session, and commented post's id.
+Then insert those obtained values to table `comments`.
+After the all process done, the website redirect to the post detailed information page.
+
+#### Edit comment
+```.py
+def edit_comment(post_id, comment_id):
+    if request.method == "POST":
+        new_comment=request.form.get('comment_text')
+        db_connection.run_query(f"UPDATE comments set comment='{new_comment}' where id={comment_id}")
+        db_connection.close()
+        return redirect(url_for('view_detail', post_id=post_id))
+```
+In the
+
+
+#### Delete comment
+
 ### like system (Success Criteria 3)
 To meet the criteria, I created the like system which the logged-in users to like posts.
 
@@ -504,7 +539,7 @@ mail = Mail(app)
 
 First, I imported `flask_mail` and modules, `Mail` and `Message`.
 To enable later changes to the configuration without having to modify the code, I save my credentials in environment variables, instead of directly in my code or configuration files by hard-coding them. 
-This email is development testing, so I used SSL instead of TLS and port number 587. [^7]
+This email is development testing, so I used SSL instead of TLS and port number 587 instead of 465. [^7]
 
 
 ```.py

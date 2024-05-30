@@ -527,9 +527,10 @@ def main():
     return render_template('main.html', posts=post_data, logging=logging())
 
 
-@app.route('/main/<int:post_id>/like', methods=['GET','POST'])
+@app.route('/main/<int:post_id>/like')
 def like(post_id):
     db_connection = DatabaseWorker("project4")
+    print("liked")
     if not logging():
         db_connection.close()
         return redirect(url_for('login'))
@@ -539,8 +540,10 @@ def like(post_id):
         liked = user_like_with is not None  # True: if liked, False: if not liked
         if liked:
             db_connection.run_query(query=f"DELETE FROM likes WHERE post_id={post_id} and user_id={user_id}")
+            print("disliked")
         else:
             db_connection.run_query(query=f"INSERT INTO likes (post_id, user_id) values ({post_id},{user_id})")
+            print("liked")
         db_connection.close()
         return redirect(url_for('main'))
 

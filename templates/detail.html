@@ -100,6 +100,13 @@
             <div class="top_box">
                 <p><a id="username" href="{{ url_for('profile', user=post[3])}}">{{ post[8] }}</a></p>
                 <p>{{ post[1] }}</p>
+                {% if post[10] == True %}
+                    <button name="like_btn" class="like_btn"><a href="{{ url_for('like', post_id=post[0]) }}">
+                        <i class="fa fa-heart" style="font-size:20px;color:#ED4987"></i>{{ post[7] }}</a></button>
+                {% else %}
+                    <button name="not_like_btn" class="like_btn" style="background-color: white "><a href="{{ url_for('like', post_id=post[0]) }}">
+                        <i class="fa fa-heart" style="font-size:20px;color:#837379;"></i>{{ post[7] }}</a></button>
+                {% endif %}
             </div>
             <p style="font-size: 30px">{{ post[2] }}</p>
             <div class="hashtag">

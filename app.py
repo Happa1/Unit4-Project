@@ -1,12 +1,9 @@
 import os
 import re
-
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from flask import session
-import sqlite3
 from tools import DatabaseWorker, make_hash, check_hash, logging
 from datetime import datetime, timedelta
-from flask import g
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
@@ -667,10 +664,10 @@ def my_profile_edit():
             new_pro_msg = request.form.get('pro_msg_text')
             print(f"message {new_pro_msg}")
             print(f"file {file_name}")
-            db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
-            db_connection.run_query(f"UPDATE users set pro_img='{file_name}' where id={user_id}")
+            db_connection.run_query(f'UPDATE users set pro_msg="{new_pro_msg}" where id={user_id}')
+            db_connection.run_query(f'UPDATE users set pro_img="{file_name}" where id={user_id}')
         else:
-            db_connection.run_query(f"UPDATE users set pro_msg='{new_pro_msg}' where id={user_id}")
+            db_connection.run_query(f'UPDATE users set pro_msg="{new_pro_msg}" where id={user_id}')
         db_connection.close()
         return redirect((url_for('my_profile')))
 

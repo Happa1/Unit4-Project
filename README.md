@@ -13,6 +13,7 @@ source: [^9]
 5. datetime
 5. sqlite3
 6. jquery
+7. jinja
 
 ### Used techniques
 1. Flask library for website construction
@@ -594,6 +595,16 @@ Please watch this vide.
 https://drive.google.com/file/d/1D-WHNp-VGpvXmoHEkrsga2e6EgPhjOwA/view?usp=sharing
 
 ## CriteriaE
+![email1.jpg](doc_image%2Femail1.jpg)
+**Fig 2** The screenshot of email about request for feedback
+
+![email2.jpg](doc_image%2Femail2.jpg)
+
+![email3.jpg](doc_image%2Femail3.jpg)
+**Fig 3, 4** The screenshot of email about the feedback from the client
+
+![email4.jpg](doc_image%2Femail4.jpg)
+**Fig 5** The screenshot of email about the realistic improvement to respond the feedback
 
 ## Citation
 [^1]: Majeed, Umer, et al. “Blockchain for IoT-Based Smart Cities: Recent Advances, Requirements, and Future Challenges.” Journal of Network and Computer Applications, vol. 181, 1 May 2021, pp. 103007–103007, www.sciencedirect.com/topics/computer-science/hash-function#:~:text=Hash%20functions%20are%20used%20for,the%20hash%20itself%20is%20signed., https://doi.org/10.1016/j.jnca.2021.103007. Accessed 29 May 2024.

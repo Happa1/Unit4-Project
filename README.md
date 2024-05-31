@@ -592,7 +592,7 @@ After the email sent, the website transits to `reset_email_success.html`.
 
 ## CriteriaD
 Please watch this vide.
-https://drive.google.com/file/d/1D-WHNp-VGpvXmoHEkrsga2e6EgPhjOwA/view?usp=sharing
+https://drive.google.com/file/d/1LA9DGjvNAsfI3UDru6XSHKZ2ji8wWcLM/view?usp=sharing
 
 ## CriteriaE
 ![email1.jpg](doc_image%2Femail1.jpg)
